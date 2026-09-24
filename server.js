@@ -1,0 +1,228 @@
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const jobs = require('./src/jobs');
+const { enrichWebsite, enrichLeadComprehensively } = require('./src/enricher');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Create and launch a single job
+app.post('/api/jobs', async (req, res) => {
+  try {
+    const { query, city, maxResults = 20, enrich = true, headless = true } = req.body;
+    if (!query) {
+      return res.status(400).json({ error: 'Search query or keyword is required.' });
+    }
+
+    const fullQuery = city ? `${query} in ${city}` : query;
+    const job = jobs.createJob({
+      query: fullQuery,
+      maxResults,
+      enrich,
+      headless
+    });
+
+    // Start asynchronously in background
+    jobs.startJob(job.id);
+
+    res.status(201).json({
+      message: 'Job created and started successfully',
+      jobId: job.id,
+      query: fullQuery
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Create and launch batch jobs
+app.post('/api/jobs/batch', async (req, res) => {
+  try {
+    const { queries = [], city, maxResults = 10, enrich = true } = req.body;
+    if (!Array.isArray(queries) || queries.length === 0) {
+      return res.status(400).json({ error: 'Please provide an array of queries/keywords.' });
+    }
+
+    const created = [];
+    for (const q of queries) {
+      const fullQuery = city ? `${q} in ${city}` : q;
+      const job = jobs.createJob({
+        query: fullQuery,
+        maxResults,
+        enrich,
+        headless: true
+      });
+      created.push(job.id);
+    }
+
+    // Process batch sequentially in background
+    (async () => {
+      for (const id of created) {
+        await jobs.startJob(id);
+      }
+    })();
+
+    res.status(201).json({
+      message: `Created batch of ${created.length} jobs`,
+      jobIds: created
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// List all jobs
+app.get('/api/jobs', (req, res) => {
+  res.json(jobs.getAllJobs());
+});
+
+// Get job details
+app.get('/api/jobs/:id', (req, res) => {
+  const job = jobs.getJob(req.params.id);
+  if (!job) {
+    return res.status(400).json({ error: 'Job not found' });
+  }
+  res.json({
+    id: job.id,
+    query: job.query,
+    status: job.status,
+    progress: job.progress,
+    leadsCount: job.leads.length,
+    leads: job.leads,
+    logs: job.logs,
+    createdAt: job.createdAt,
+    completedAt: job.completedAt,
+    error: job.error
+  });
+});
+
+// SSE Live stream for a specific job
+app.get('/api/jobs/:id/events', (req, res) => {
+  const job = jobs.getJob(req.params.id);
+  if (!job) {
+    return res.status(404).send('Job not found');
+  }
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  // Send initial state
+  res.write(`data: ${JSON.stringify({ type: 'init', leads: job.leads, logs: job.logs, progress: job.progress, status: job.status })}\n\n`);
+
+  // Event handlers
+  const onLead = (lead) => {
+    res.write(`data: ${JSON.stringify({ type: 'lead', lead })}\n\n`);
+  };
+  const onLog = (log) => {
+    res.write(`data: ${JSON.stringify({ type: 'log', log })}\n\n`);
+  };
+  const onProgress = (progress) => {
+    res.write(`data: ${JSON.stringify({ type: 'progress', progress })}\n\n`);
+  };
+  const onDone = (data) => {
+    res.write(`data: ${JSON.stringify({ type: 'done', data })}\n\n`);
+  };
+  const onError = (data) => {
+    res.write(`data: ${JSON.stringify({ type: 'error', data })}\n\n`);
+  };
+
+  job.emitter.on('lead', onLead);
+  job.emitter.on('log', onLog);
+  job.emitter.on('progress', onProgress);
+  job.emitter.on('done', onDone);
+  job.emitter.on('error', onError);
+
+  req.on('close', () => {
+    job.emitter.off('lead', onLead);
+    job.emitter.off('log', onLog);
+    job.emitter.off('progress', onProgress);
+    job.emitter.off('done', onDone);
+    job.emitter.off('error', onError);
+  });
+});
+
+// Export job results to CSV (UTF-8 with BOM for Excel & Google Sheets)
+app.get('/api/jobs/:id/export.csv', (req, res) => {
+  const job = jobs.getJob(req.params.id);
+  if (!job) return res.status(404).send('Job not found');
+
+  const csv = jobs.exportToCSV(job.leads);
+  const safeFilename = `leads_${job.query.replace(/[^a-z0-9]/gi, '_')}.csv`;
+
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+  res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}"`);
+  res.status(200).send(Buffer.from(csv, 'utf8'));
+});
+
+// Export job results to Excel (.xlsx) with auto-proportioned columns
+app.get('/api/jobs/:id/export.xlsx', (req, res) => {
+  const job = jobs.getJob(req.params.id);
+  if (!job) return res.status(404).send('Job not found');
+
+  const buffer = jobs.exportToExcel(job.leads);
+  const safeFilename = `leads_${job.query.replace(/[^a-z0-9]/gi, '_')}.xlsx`;
+
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}"`);
+  res.status(200).send(buffer);
+});
+
+// Export job results to JSON
+app.get('/api/jobs/:id/export.json', (req, res) => {
+  const job = jobs.getJob(req.params.id);
+  if (!job) return res.status(404).send('Job not found');
+
+  const safeFilename = `leads_${job.query.replace(/[^a-z0-9]/gi, '_')}.json`;
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Disposition', `attachment; filename="${safeFilename}"`);
+  res.status(200).json(job.leads);
+});
+
+// On-demand standalone website enrichment
+app.post('/api/enrich-single', async (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).json({ error: 'URL is required' });
+
+  try {
+    const data = await enrichWebsite(url);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// On-demand social and email discovery for any lead
+app.post('/api/leads/enrich-socials', async (req, res) => {
+  const leadData = req.body.lead || req.body;
+  const name = leadData.name;
+  const location = req.body.location || leadData.location || leadData.address;
+  const website = leadData.website;
+  const phone = leadData.phone;
+  if (!name) return res.status(400).json({ error: 'Business name is required' });
+
+  try {
+    const enriched = await enrichLeadComprehensively({ name, website, phone, address: location }, location);
+    res.json(enriched);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Serve frontend SPA fallback
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`====================================================`);
+  console.log(`🚀 Leads Finder Scraper App running on:`);
+  console.log(`👉 http://localhost:${PORT}`);
+  console.log(`====================================================`);
+});

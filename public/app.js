@@ -1,0 +1,626 @@
+// LeadPulse Scraper Frontend Logic
+
+let currentJobId = null;
+let eventSource = null;
+let allLeads = [];
+let activeFilter = 'all';
+
+// DOM Elements
+const scrapeForm = document.getElementById('scrapeForm');
+const queryInput = document.getElementById('queryInput');
+const cityInput = document.getElementById('cityInput');
+const limitSelect = document.getElementById('limitSelect');
+const enrichToggle = document.getElementById('enrichToggle');
+const headlessToggle = document.getElementById('headlessToggle');
+const startBtn = document.getElementById('startBtn');
+const startBtnText = document.getElementById('startBtnText');
+const btnSpinner = document.getElementById('btnSpinner');
+
+// Progress & Status
+const liveProgressContainer = document.getElementById('liveProgressContainer');
+const progressBar = document.getElementById('progressBar');
+const progressPercentage = document.getElementById('progressPercentage');
+const progressFraction = document.getElementById('progressFraction');
+const progressStatusText = document.getElementById('progressStatusText');
+const latestLogText = document.getElementById('latestLogText');
+const systemStatusText = document.getElementById('systemStatusText');
+
+// Metric Counters
+const metricTotal = document.getElementById('metricTotal');
+const metricEmails = document.getElementById('metricEmails');
+const metricPhones = document.getElementById('metricPhones');
+const metricWebsites = document.getElementById('metricWebsites');
+const metricSocials = document.getElementById('metricSocials');
+
+// Table Elements
+const leadsTableBody = document.getElementById('leadsTableBody');
+const emptyStateRow = document.getElementById('emptyStateRow');
+const tableCountBadge = document.getElementById('tableCountBadge');
+const tableFilterInput = document.getElementById('tableFilterInput');
+const filterChips = document.querySelectorAll('.filter-chip');
+
+// Export & Action Buttons
+const exportXlsxBtn = document.getElementById('exportXlsxBtn');
+const exportCsvBtn = document.getElementById('exportCsvBtn');
+const exportJsonBtn = document.getElementById('exportJsonBtn');
+const copyEmailsBtn = document.getElementById('copyEmailsBtn');
+
+// Terminal Logs
+const terminalLogs = document.getElementById('terminalLogs');
+const clearLogsBtn = document.getElementById('clearLogsBtn');
+
+// Batch Modal
+const batchModalBtn = document.getElementById('batchModalBtn');
+const batchModal = document.getElementById('batchModal');
+const batchModalClose = document.getElementById('batchModalClose');
+const batchCancelBtn = document.getElementById('batchCancelBtn');
+const batchStartBtn = document.getElementById('batchStartBtn');
+const batchCityInput = document.getElementById('batchCityInput');
+const batchKeywords = document.getElementById('batchKeywords');
+const batchLimit = document.getElementById('batchLimit');
+
+// Toast
+const toast = document.getElementById('toast');
+
+// --- Initialization & Event Listeners ---
+
+scrapeForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const query = queryInput.value.trim();
+  const city = cityInput.value.trim();
+  const maxResults = parseInt(limitSelect.value, 10);
+  const enrich = enrichToggle.checked;
+  const headless = headlessToggle.checked;
+
+  if (!query) {
+    showToast('Please enter a business keyword/niche.');
+    return;
+  }
+
+  await startScrapeJob({ query, city, maxResults, enrich, headless });
+});
+
+// Start Scraping Job
+async function startScrapeJob(payload) {
+  setScrapingState(true);
+  resetMetrics();
+  allLeads = [];
+  renderLeadsTable();
+
+  try {
+    const res = await fetch('/api/jobs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to start job');
+
+    currentJobId = data.jobId;
+    appendLog(`Job initialized [ID: ${currentJobId}]. Connecting to real-time event stream...`);
+    connectToJobStream(currentJobId);
+  } catch (err) {
+    appendLog(`Error launching job: ${err.message}`, 'error');
+    setScrapingState(false);
+    showToast(`Error: ${err.message}`);
+  }
+}
+
+// Connect to Server-Sent Events (SSE) stream
+function connectToJobStream(jobId) {
+  if (eventSource) {
+    eventSource.close();
+  }
+
+  eventSource = new EventSource(`/api/jobs/${jobId}/events`);
+
+  eventSource.onmessage = (event) => {
+    try {
+      const msg = JSON.parse(event.data);
+
+      if (msg.type === 'init') {
+        if (msg.leads && msg.leads.length > 0) {
+          allLeads = msg.leads;
+          renderLeadsTable();
+          updateMetrics();
+        }
+      } else if (msg.type === 'lead') {
+        allLeads.push(msg.lead);
+        renderSingleLead(msg.lead);
+        updateMetrics();
+        if (exportXlsxBtn) exportXlsxBtn.disabled = false;
+        exportCsvBtn.disabled = false;
+        exportJsonBtn.disabled = false;
+      } else if (msg.type === 'log') {
+        appendLog(`[${msg.log.timestamp}] ${msg.log.text}`);
+        latestLogText.textContent = msg.log.text;
+      } else if (msg.type === 'progress') {
+        const { current, total } = msg.progress;
+        const pct = Math.min(100, Math.round((current / (total || 1)) * 100));
+        progressBar.style.width = `${pct}%`;
+        progressPercentage.textContent = `${pct}%`;
+        progressFraction.textContent = `(${current}/${total})`;
+      } else if (msg.type === 'done') {
+        appendLog(`Scraping job completed successfully! Found ${allLeads.length} leads.`, 'system');
+        progressStatusText.textContent = 'Scraping completed!';
+        progressBar.style.width = '100%';
+        progressPercentage.textContent = '100%';
+        setScrapingState(false);
+        showToast(`Done! Collected ${allLeads.length} leads.`);
+        eventSource.close();
+      } else if (msg.type === 'error') {
+        appendLog(`Scraper encountered an error: ${msg.data?.error || 'Unknown error'}`, 'error');
+        setScrapingState(false);
+        eventSource.close();
+      }
+    } catch (err) {
+      console.error('Error parsing SSE message:', err);
+    }
+  };
+
+  eventSource.onerror = (err) => {
+    console.warn('SSE stream closed or interrupted');
+  };
+}
+
+// Set UI state during scraping
+function setScrapingState(isScraping) {
+  if (isScraping) {
+    startBtn.disabled = true;
+    btnSpinner.style.display = 'inline-block';
+    startBtnText.textContent = 'Scraping in progress...';
+    liveProgressContainer.classList.remove('hidden');
+    systemStatusText.textContent = 'Scraper Running';
+    progressStatusText.textContent = 'Collecting Google Maps listings...';
+    progressBar.style.width = '0%';
+    progressPercentage.textContent = '0%';
+    progressFraction.textContent = '(0/0)';
+  } else {
+    startBtn.disabled = false;
+    btnSpinner.style.display = 'none';
+    startBtnText.textContent = 'Start Scraping Leads';
+    systemStatusText.textContent = 'Engine Ready';
+  }
+}
+
+// Update KPI Metric Counters
+function updateMetrics() {
+  metricTotal.textContent = allLeads.length;
+  
+  const emailsCount = allLeads.filter(l => l.emails && l.emails.length > 0).length;
+  metricEmails.textContent = emailsCount;
+
+  const phonesCount = allLeads.filter(l => Boolean(l.phone)).length;
+  metricPhones.textContent = phonesCount;
+
+  const websitesCount = allLeads.filter(l => Boolean(l.website)).length;
+  metricWebsites.textContent = websitesCount;
+
+  const socialsCount = allLeads.filter(l => l.socials && Object.values(l.socials).some(Boolean)).length;
+  metricSocials.textContent = socialsCount;
+
+  tableCountBadge.textContent = `${allLeads.length} leads`;
+}
+
+function resetMetrics() {
+  metricTotal.textContent = '0';
+  metricEmails.textContent = '0';
+  metricPhones.textContent = '0';
+  metricWebsites.textContent = '0';
+  metricSocials.textContent = '0';
+  tableCountBadge.textContent = '0 leads';
+}
+
+// Render leads table
+function renderLeadsTable() {
+  leadsTableBody.innerHTML = '';
+
+  const filtered = filterLeads(allLeads);
+
+  if (filtered.length === 0) {
+    leadsTableBody.innerHTML = `
+      <tr class="empty-state-row">
+        <td colspan="6">
+          <div class="empty-state">
+            <div class="empty-icon">📍</div>
+            <h3>${allLeads.length === 0 ? 'No leads scraped yet' : 'No leads match your filter'}</h3>
+            <p>${allLeads.length === 0 ? 'Enter a business keyword and location above to start scraping.' : 'Try changing your filter settings.'}</p>
+          </div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  for (const lead of filtered) {
+    appendLeadRow(lead);
+  }
+}
+
+function renderSingleLead(lead) {
+  // If empty state was showing, clear it
+  if (leadsTableBody.querySelector('.empty-state-row')) {
+    leadsTableBody.innerHTML = '';
+  }
+
+  if (matchesFilter(lead)) {
+    appendLeadRow(lead);
+  }
+}
+
+function appendLeadRow(lead) {
+  const tr = document.createElement('tr');
+  tr.id = `row_${lead.id}`;
+
+  // Emails badges HTML
+  let emailsHtml = '<span style="color: var(--text-dim); font-size: 0.8rem;">None found</span>';
+  if (lead.emails && lead.emails.length > 0) {
+    emailsHtml = `<div class="emails-list">` + 
+      lead.emails.map(e => `
+        <span class="email-chip" onclick="copyText('${e}')" title="Click to copy">
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          ${escapeHtml(e)}
+        </span>
+      `).join('') + `</div>`;
+  }
+
+  // Socials & Direct Outreach badges HTML
+  const socials = lead.socials || {};
+  const cleanPhoneDigits = lead.phone ? lead.phone.replace(/\D/g, '') : null;
+  const waUrl = lead.whatsAppUrl || (cleanPhoneDigits && cleanPhoneDigits.length >= 10 ? `https://wa.me/1${cleanPhoneDigits}` : null);
+
+  const igUrl = socials.instagram || `https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(lead.name || '')}`;
+  const fbUrl = socials.facebook || `https://www.facebook.com/search/pages/?q=${encodeURIComponent(lead.name || '')}`;
+  const liUrl = socials.linkedin;
+
+  let outreachHtml = `
+    <div class="outreach-channels">
+      <a href="${igUrl}" target="_blank" class="channel-btn btn-ig ${socials.instagram ? 'verified' : 'search'}" title="${socials.instagram ? 'Verified Instagram Profile' : 'Search on Instagram'}">
+        📸 ${socials.instagram ? 'Instagram' : 'Find on IG'}
+      </a>
+      <a href="${fbUrl}" target="_blank" class="channel-btn btn-fb ${socials.facebook ? 'verified' : 'search'}" title="${socials.facebook ? 'Verified Facebook Page' : 'Search on Facebook'}">
+        📘 ${socials.facebook ? 'Facebook' : 'Find on FB'}
+      </a>
+      ${liUrl ? `<a href="${liUrl}" target="_blank" class="channel-btn btn-li verified" title="LinkedIn">💼 LinkedIn</a>` : ''}
+      <button id="btn_enrich_${lead.id}" class="channel-btn btn-enrich-more" onclick="deepEnrichLead('${lead.id}')" title="Search web for missing contact info">
+        ⚡ Deep Search
+      </button>
+    </div>
+  `;
+
+  // Phone & WhatsApp HTML
+  let phoneHtml = '<span style="color: var(--text-dim); font-size: 0.8rem;">No phone</span>';
+  if (lead.phone) {
+    phoneHtml = `
+      <div class="phone-group">
+        <a href="tel:${escapeHtml(lead.phone)}" class="phone-link">
+          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          ${escapeHtml(lead.phone)}
+        </a>
+        ${waUrl ? `
+          <a href="${waUrl}" target="_blank" class="badge-wa" title="Open direct WhatsApp conversation">
+            💬 WhatsApp
+          </a>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  // Website & Pitch Status HTML
+  let websiteStatusHtml = '';
+  if (lead.website) {
+    let displayUrl = lead.website.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '');
+    websiteStatusHtml = `
+      <div class="website-cell">
+        <a href="${lead.website}" target="_blank" class="website-link" title="${lead.website}">
+          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          ${escapeHtml(displayUrl)}
+        </a>
+        <span class="status-chip chip-has-web">Has Website</span>
+      </div>
+    `;
+  } else {
+    websiteStatusHtml = `
+      <div class="no-web-pitch-cell">
+        <span class="status-chip chip-no-web">🔥 NO WEBSITE</span>
+        <span class="pitch-hint">Top target to sell a website!</span>
+      </div>
+    `;
+  }
+
+  // Rating HTML
+  let ratingHtml = '<span style="color: var(--text-dim); font-size: 0.8rem;">No rating</span>';
+  if (lead.rating) {
+    ratingHtml = `
+      <div class="rating-badge">
+        ⭐ ${lead.rating} ${lead.reviews ? `<small style="opacity: 0.8;">(${lead.reviews})</small>` : ''}
+      </div>
+    `;
+  }
+
+  tr.innerHTML = `
+    <td>
+      <div class="business-cell">
+        <span class="business-name">${escapeHtml(lead.name || 'Unnamed Place')}</span>
+        ${lead.address ? `<span class="address-subtext">${escapeHtml(lead.address)}</span>` : ''}
+        ${lead.googleMapsUrl ? `
+          <a href="${lead.googleMapsUrl}" target="_blank" class="business-gmaps-link">
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+            View on Google Maps
+          </a>
+        ` : ''}
+      </div>
+    </td>
+    <td>
+      <div class="rating-group">
+        ${ratingHtml}
+        <span class="category-text">${escapeHtml(lead.category || 'Local Business')}</span>
+      </div>
+    </td>
+    <td>${phoneHtml}</td>
+    <td>${emailsHtml}</td>
+    <td>${outreachHtml}</td>
+    <td>${websiteStatusHtml}</td>
+  `;
+
+  leadsTableBody.prepend(tr);
+}
+
+// Filtering
+function filterLeads(leads) {
+  const query = tableFilterInput.value.toLowerCase().trim();
+
+  return leads.filter(lead => {
+    // Text search
+    if (query) {
+      const matchName = (lead.name || '').toLowerCase().includes(query);
+      const matchAddress = (lead.address || '').toLowerCase().includes(query);
+      const matchPhone = (lead.phone || '').toLowerCase().includes(query);
+      const matchCategory = (lead.category || '').toLowerCase().includes(query);
+      if (!matchName && !matchAddress && !matchPhone && !matchCategory) return false;
+    }
+
+    // Category / Tag chips
+    if (activeFilter === 'hasEmail') {
+      return lead.emails && lead.emails.length > 0;
+    } else if (activeFilter === 'hasPhone') {
+      return Boolean(lead.phone);
+    } else if (activeFilter === 'hasInstagram') {
+      return lead.socials && Boolean(lead.socials.instagram);
+    } else if (activeFilter === 'hasFacebook') {
+      return lead.socials && Boolean(lead.socials.facebook);
+    } else if (activeFilter === 'noWebsite') {
+      return !lead.website;
+    }
+
+    return true;
+  });
+}
+
+function matchesFilter(lead) {
+  const query = tableFilterInput.value.toLowerCase().trim();
+  if (query) {
+    const matchName = (lead.name || '').toLowerCase().includes(query);
+    const matchAddress = (lead.address || '').toLowerCase().includes(query);
+    const matchPhone = (lead.phone || '').toLowerCase().includes(query);
+    const matchCategory = (lead.category || '').toLowerCase().includes(query);
+    if (!matchName && !matchAddress && !matchPhone && !matchCategory) return false;
+  }
+
+  if (activeFilter === 'hasEmail') return lead.emails && lead.emails.length > 0;
+  if (activeFilter === 'hasPhone') return Boolean(lead.phone);
+  if (activeFilter === 'hasInstagram') return lead.socials && Boolean(lead.socials.instagram);
+  if (activeFilter === 'hasFacebook') return lead.socials && Boolean(lead.socials.facebook);
+  if (activeFilter === 'noWebsite') return !lead.website;
+
+  return true;
+}
+
+// On-demand Deep Social and Email Search for a single lead
+window.deepEnrichLead = async function(leadId) {
+  const lead = allLeads.find(l => l.id === leadId);
+  if (!lead) return;
+
+  const btn = document.getElementById(`btn_enrich_${leadId}`);
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Searching...';
+  }
+
+  try {
+    const cityVal = document.getElementById('cityInput').value.trim();
+    const res = await fetch('/api/leads/enrich-socials', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: lead.name,
+        location: lead.address || cityVal,
+        website: lead.website
+      })
+    });
+    const enriched = await res.json();
+    if (enriched) {
+      if (enriched.emails && enriched.emails.length > 0) {
+        lead.emails = Array.from(new Set([...(lead.emails || []), ...enriched.emails]));
+      }
+      if (enriched.socials) {
+        lead.socials = { ...(lead.socials || {}), ...enriched.socials };
+      }
+      if (!lead.website && enriched.website) {
+        lead.website = enriched.website;
+      }
+      if (enriched.whatsAppUrl) {
+        lead.whatsAppUrl = enriched.whatsAppUrl;
+      }
+      showToast(`Updated contact & socials for ${lead.name}!`);
+      renderLeadsTable();
+      updateMetrics();
+    }
+  } catch (err) {
+    alert('Search error: ' + err.message);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '⚡ Deep Search';
+    }
+  }
+};
+
+// Preset Niche Tags Handler
+document.querySelectorAll('.preset-tag').forEach(tag => {
+  tag.addEventListener('click', () => {
+    document.getElementById('queryInput').value = tag.dataset.niche;
+    document.getElementById('cityInput').value = tag.dataset.loc;
+    showToast(`Loaded preset: ${tag.dataset.niche} in ${tag.dataset.loc}`);
+  });
+});
+
+tableFilterInput.addEventListener('input', () => {
+  renderLeadsTable();
+});
+
+filterChips.forEach(chip => {
+  chip.addEventListener('click', () => {
+    filterChips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    activeFilter = chip.getAttribute('data-filter');
+    renderLeadsTable();
+  });
+});
+
+// Excel (.xlsx) Export
+if (exportXlsxBtn) {
+  exportXlsxBtn.addEventListener('click', () => {
+    if (!currentJobId) {
+      showToast('No active job to export.');
+      return;
+    }
+    window.location.href = `/api/jobs/${currentJobId}/export.xlsx`;
+    showToast('Downloading formatted Excel spreadsheet (.xlsx)...');
+  });
+}
+
+// CSV Export
+exportCsvBtn.addEventListener('click', () => {
+  if (!currentJobId) {
+    showToast('No active job to export.');
+    return;
+  }
+  window.location.href = `/api/jobs/${currentJobId}/export.csv`;
+  showToast('Downloading clean CSV lead list...');
+});
+
+// JSON Export
+exportJsonBtn.addEventListener('click', () => {
+  if (!currentJobId) {
+    showToast('No active job to export.');
+    return;
+  }
+  window.location.href = `/api/jobs/${currentJobId}/export.json`;
+  showToast('Downloading JSON lead list...');
+});
+
+// Copy all discovered emails
+copyEmailsBtn.addEventListener('click', () => {
+  const allEmails = [];
+  allLeads.forEach(l => {
+    if (l.emails) allEmails.push(...l.emails);
+  });
+
+  const unique = Array.from(new Set(allEmails));
+  if (unique.length === 0) {
+    showToast('No emails discovered yet to copy.');
+    return;
+  }
+
+  navigator.clipboard.writeText(unique.join('\n'));
+  showToast(`Copied ${unique.length} email(s) to clipboard!`);
+});
+
+// Append to Terminal Logs
+function appendLog(text, level = 'info') {
+  const line = document.createElement('div');
+  line.className = `log-line ${level}`;
+  line.textContent = text;
+  terminalLogs.appendChild(line);
+  terminalLogs.scrollTop = terminalLogs.scrollHeight;
+}
+
+clearLogsBtn.addEventListener('click', () => {
+  terminalLogs.innerHTML = '';
+});
+
+// Batch Modal Handlers
+batchModalBtn.addEventListener('click', () => {
+  batchModal.classList.remove('hidden');
+});
+batchModalClose.addEventListener('click', () => {
+  batchModal.classList.add('hidden');
+});
+batchCancelBtn.addEventListener('click', () => {
+  batchModal.classList.add('hidden');
+});
+
+batchStartBtn.addEventListener('click', async () => {
+  const city = batchCityInput.value.trim();
+  const rawKeywords = batchKeywords.value.trim();
+  const limit = parseInt(batchLimit.value, 10);
+
+  if (!rawKeywords) {
+    showToast('Please enter at least one keyword.');
+    return;
+  }
+
+  const queries = rawKeywords.split('\n').map(s => s.trim()).filter(Boolean);
+  if (queries.length === 0) return;
+
+  batchModal.classList.add('hidden');
+  appendLog(`Starting batch run with ${queries.length} keywords in ${city}...`);
+
+  try {
+    const res = await fetch('/api/jobs/batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        queries,
+        city,
+        maxResults: limit,
+        enrich: true
+      })
+    });
+    const data = await res.json();
+    if (data.jobIds && data.jobIds.length > 0) {
+      currentJobId = data.jobIds[0];
+      setScrapingState(true);
+      connectToJobStream(currentJobId);
+      showToast(`Batch started (${queries.length} search queries queued)!`);
+    }
+  } catch (err) {
+    showToast(`Batch launch error: ${err.message}`);
+  }
+});
+
+// Helpers
+window.copyText = function(text) {
+  navigator.clipboard.writeText(text);
+  showToast(`Copied: ${text}`);
+};
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.remove('hidden');
+  setTimeout(() => {
+    toast.classList.add('hidden');
+  }, 3500);
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}

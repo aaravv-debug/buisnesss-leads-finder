@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadPulse 🗺️ Google Maps Scraper & Leads Finder</title>
+  <meta name="description" content="Local Google Maps business scraper and enrichment tool. Extracts names, phone numbers, addresses, emails, and social profiles into clean lead lists.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient-glow"></div>
+  <div class="app-layout">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo">🗺️</div>
+        <div>
+          <h1 class="brand-title">LeadPulse <span class="badge-pro">PRO SCRAPER</span></h1>
+          <p class="brand-subtitle">Google Maps Business Leads & Deep Contact Enrichment</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span id="systemStatusText">Engine Ready</span>
+        </div>
+        <button id="batchModalBtn" class="btn btn-secondary">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+          Batch Scrape
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Grid Content -->
+    <main class="main-content">
+      
+      <!-- Search & Configuration Section -->
+      <section class="card control-card">
+        <form id="scrapeForm" class="scrape-form">
+          <div class="form-row">
+            <div class="input-group flex-2">
+              <label for="queryInput">Business Niche / Keyword</label>
+              <div class="input-wrapper">
+                <svg class="input-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input type="text" id="queryInput" placeholder="e.g. Gyms, Dentists, Roofers, Coffee Shops" required value="Gyms">
+              </div>
+            </div>
+
+            <div class="input-group flex-2">
+              <label for="cityInput">Location / City & State</label>
+              <div class="input-wrapper">
+                <svg class="input-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <input type="text" id="cityInput" placeholder="e.g. Miami, FL or Denver, CO" required value="Miami, FL">
+              </div>
+            </div>
+
+            <div class="input-group flex-1">
+              <label for="limitSelect">Results Limit</label>
+              <select id="limitSelect">
+                <option value="5">5 Leads (Quick test)</option>
+                <option value="10" selected>10 Leads</option>
+                <option value="20">20 Leads</option>
+                <option value="50">50 Leads</option>
+                <option value="100">100 Leads</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- US High-Ticket Quick Presets -->
+          <div class="presets-row">
+            <span class="presets-title">🎯 High-Ticket US Niches:</span>
+            <div class="presets-tags">
+              <button type="button" class="preset-tag" data-niche="Med Spa" data-loc="Miami, FL">🌴 Miami Med Spas</button>
+              <button type="button" class="preset-tag" data-niche="Cosmetic Dentist" data-loc="Austin, TX">🦷 Austin Dentists</button>
+              <button type="button" class="preset-tag" data-niche="Pediatric Clinic" data-loc="Dallas, TX">🏥 Dallas Clinics</button>
+              <button type="button" class="preset-tag" data-niche="Aesthetic Clinic" data-loc="Los Angeles, CA">✨ LA Aesthetics</button>
+              <button type="button" class="preset-tag" data-niche="Roofing Contractor" data-loc="Tampa, FL">🔨 Tampa Roofers</button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <div class="toggles-group">
+              <label class="toggle-control">
+                <input type="checkbox" id="enrichToggle" checked>
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">
+                  <strong>Deep Contact Enrichment</strong>
+                  <small>Crawl business websites for emails & social links</small>
+                </span>
+              </label>
+
+              <label class="toggle-control">
+                <input type="checkbox" id="headlessToggle" checked>
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">
+                  <strong>Headless Browser</strong>
+                  <small>Run silently in background (disable to watch Chrome)</small>
+                </span>
+              </label>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" id="startBtn" class="btn btn-primary btn-large">
+                <span class="btn-spinner" id="btnSpinner"></span>
+                <svg class="btn-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <span id="startBtnText">Start Scraping Leads</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Live Progress Status Bar -->
+        <div id="liveProgressContainer" class="live-progress-container hidden">
+          <div class="progress-header">
+            <div class="progress-info">
+              <span class="pulse-indicator"></span>
+              <strong id="progressStatusText">Scraping Google Maps listings...</strong>
+            </div>
+            <div class="progress-counts">
+              <span id="progressPercentage">0%</span>
+              <span id="progressFraction">(0/0)</span>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div id="progressBar" class="progress-fill" style="width: 0%;"></div>
+          </div>
+          <div class="log-preview" id="logPreview">
+            <span class="log-label">LOG:</span> <span id="latestLogText">Initializing scraper...</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- KPI Metrics Overview -->
+      <section class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon icon-leads">🏢</div>
+          <div class="metric-details">
+            <div class="metric-value" id="metricTotal">0</div>
+            <div class="metric-title">Total Leads Scraped</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon icon-emails">✉️</div>
+          <div class="metric-details">
+            <div class="metric-value" id="metricEmails">0</div>
+            <div class="metric-title">Emails Discovered</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon icon-phones">📞</div>
+          <div class="metric-details">
+            <div class="metric-value" id="metricPhones">0</div>
+            <div class="metric-title">Phone Numbers</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon icon-websites">🌐</div>
+          <div class="metric-details">
+            <div class="metric-value" id="metricWebsites">0</div>
+            <div class="metric-title">Websites Found</div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon icon-socials">📱</div>
+          <div class="metric-details">
+            <div class="metric-value" id="metricSocials">0</div>
+            <div class="metric-title">Social Profiles</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Table Section -->
+      <section class="card table-card">
+        <div class="table-header">
+          <div class="table-title-group">
+            <h2 class="table-title">Live Scraped Leads</h2>
+            <span class="badge-count" id="tableCountBadge">0 leads</span>
+          </div>
+
+          <div class="table-toolbar">
+            <div class="filter-input-wrapper">
+              <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="tableFilterInput" placeholder="Filter by name, city, phone...">
+            </div>
+
+            <div class="filter-buttons">
+              <button class="filter-chip active" data-filter="all">All</button>
+              <button class="filter-chip" data-filter="hasEmail">Has Email</button>
+              <button class="filter-chip" data-filter="hasPhone">Has Phone</button>
+              <button class="filter-chip" data-filter="hasInstagram">📸 Instagram</button>
+              <button class="filter-chip" data-filter="hasFacebook">📘 Facebook</button>
+              <button class="filter-chip" data-filter="noWebsite">🔥 Needs Website</button>
+            </div>
+
+            <div class="export-actions">
+              <button id="copyEmailsBtn" class="btn btn-secondary btn-sm" title="Copy all found emails to clipboard">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Emails
+              </button>
+              <button id="exportXlsxBtn" class="btn btn-export btn-sm" disabled title="Download formatted Excel spreadsheet">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Export Excel (.xlsx)
+              </button>
+              <button id="exportCsvBtn" class="btn btn-secondary btn-sm" disabled title="Download clean CSV sheet">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Export CSV
+              </button>
+              <button id="exportJsonBtn" class="btn btn-secondary btn-sm" disabled>
+                Export JSON
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="leads-table" id="leadsTable">
+            <thead>
+              <tr>
+                <th style="width: 22%;">Business</th>
+                <th style="width: 12%;">Rating & Category</th>
+                <th style="width: 15%;">Phone & WhatsApp</th>
+                <th style="width: 16%;">Emails</th>
+                <th style="width: 20%;">Direct Outreach (IG, FB)</th>
+                <th style="width: 15%;">Website & Pitch Status</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody">
+              <tr class="empty-state-row" id="emptyStateRow">
+                <td colspan="6">
+                  <div class="empty-state">
+                    <div class="empty-icon">📍</div>
+                    <h3>No leads scraped yet</h3>
+                    <p>Enter a business keyword and location above, then click <strong>"Start Scraping Leads"</strong> to watch businesses stream in live.</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Live Terminal / Logs Drawer -->
+      <section class="card logs-card">
+        <div class="logs-header">
+          <div class="logs-title">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span>Live Scraper Execution Terminal</span>
+          </div>
+          <button id="clearLogsBtn" class="btn-text">Clear Console</button>
+        </div>
+        <div class="terminal-body" id="terminalLogs">
+          <div class="log-line system">[System] Ready to launch scrapers. Chrome auto-configured.</div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Batch Search Modal -->
+    <div class="modal-backdrop hidden" id="batchModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Batch Lead Scraper</h3>
+          <button class="modal-close-btn" id="batchModalClose">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-hint">Enter multiple keywords (one per line). The scraper will run them sequentially to avoid rate limits.</p>
+          <div class="input-group">
+            <label for="batchCityInput">Target Location</label>
+            <input type="text" id="batchCityInput" placeholder="e.g. Austin, TX" value="Austin, TX">
+          </div>
+          <div class="input-group" style="margin-top: 1rem;">
+            <label for="batchKeywords">Keywords (One per line)</label>
+            <textarea id="batchKeywords" rows="6" placeholder="Dentists&#10;Gyms&#10;Plumbers&#10;Roofers&#10;Chiropractors"></textarea>
+          </div>
+          <div class="input-group" style="margin-top: 1rem;">
+            <label for="batchLimit">Leads per keyword</label>
+            <select id="batchLimit">
+              <option value="5">5 leads each</option>
+              <option value="10" selected>10 leads each</option>
+              <option value="25">25 leads each</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="batchCancelBtn">Cancel</button>
+          <button class="btn btn-primary" id="batchStartBtn">Launch Batch Run</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
