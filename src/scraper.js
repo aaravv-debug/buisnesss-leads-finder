@@ -38,6 +38,11 @@ async function scrapeGoogleMaps(options) {
       '--disable-dev-shm-usage',
       '--disable-accelerated-2d-canvas',
       '--disable-gpu',
+      '--no-first-run',
+      '--no-zygote',
+      '--disable-extensions',
+      '--disable-background-networking',
+      '--disable-default-apps',
       '--lang=en-US,en',
       '--disable-blink-features=AutomationControlled',
       '--window-size=1280,800'
@@ -46,9 +51,17 @@ async function scrapeGoogleMaps(options) {
 
   const page = await browser.newPage();
 
+  // Stealth evasion: mask Puppeteer webdriver property
+  await page.evaluateOnNewDocument(() => {
+    Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+    window.chrome = { runtime: {} };
+    Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
+    Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
+  });
+
   // Avoid detection
   await page.setUserAgent(
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
   );
 
   const results = [];
@@ -57,14 +70,33 @@ async function scrapeGoogleMaps(options) {
   try {
     const searchUrl = `https://www.google.com/maps/search/${encodeURIComponent(query)}?hl=en`;
     onLog(`Navigating to Google Maps...`);
-    await page.goto(searchUrl, { waitUntil: 'networkidle2', timeout: 30000 });
+    try {
+      await page.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: 35000 });
+    } catch (err) {
+      onLog(`Navigation note: ${err.message}`);
+    }
 
-    // Handle cookie consent dialogs if present
+    await sleep(2000);
+
+    // Handle Google consent page (common on European / Cloud Datacenter IPs)
+    if (page.url().includes('consent.google.com')) {
+      onLog(`Detected Google consent screen on cloud server. Bypassing...`);
+      try {
+        const consentBtn = await page.$('button[aria-label*="Accept all"], button[aria-label*="Agree"], form:last-child button');
+        if (consentBtn) {
+          await consentBtn.click();
+          await page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 15000 }).catch(() => {});
+        }
+      } catch (_) {}
+      await sleep(2000);
+    }
+
+    // Handle in-page cookie dialogs if present
     try {
       const consentButtons = await page.$$('button[aria-label*="Accept all"], button[aria-label*="Agree"], form[action*="consent"] button');
       for (const btn of consentButtons) {
         await btn.click().catch(() => {});
-        await sleep(1000);
+        await sleep(500);
       }
     } catch (_) {}
 
@@ -74,7 +106,7 @@ async function scrapeGoogleMaps(options) {
     const feedSelector = 'div[role="feed"]';
     let hasFeed = true;
     try {
-      await page.waitForSelector(feedSelector, { timeout: 8000 });
+      await page.waitForSelector(feedSelector, { timeout: 10000 });
     } catch (err) {
       hasFeed = false;
     }
