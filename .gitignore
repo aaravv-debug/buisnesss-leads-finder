@@ -22,3 +22,7 @@ tmp/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Bot session and state
+autopilot-state.json
+.ig_session.json

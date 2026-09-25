@@ -1064,3 +1064,139 @@ function startOutreachPolling() {
   }, 2000);
 }
 
+// ==========================================
+// 🤖 24/7 HOURLY AUTOPILOT CONTROLS
+// ==========================================
+const btnToggleAutopilot = document.getElementById('btnToggleAutopilot');
+const btnRunNowAutopilot = document.getElementById('btnRunNowAutopilot');
+const apAppPassInput = document.getElementById('apAppPassInput');
+const apIntervalSelect = document.getElementById('apIntervalSelect');
+const apSenderEmail = document.getElementById('apSenderEmail');
+const autopilotPulse = document.getElementById('autopilotPulse');
+const autopilotStatusText = document.getElementById('autopilotStatusText');
+const autopilotTotalSent = document.getElementById('autopilotTotalSent');
+const apNextTarget = document.getElementById('apNextTarget');
+const apNextRunCountdown = document.getElementById('apNextRunCountdown');
+const autopilotTerminal = document.getElementById('autopilotTerminal');
+
+let autopilotPollingInterval = null;
+
+async function fetchAutopilotState() {
+  try {
+    const res = await fetch('/api/autopilot/status');
+    const data = await res.json();
+    if (!data) return;
+
+    if (autopilotStatusText) {
+      if (data.isRunningCycle) {
+        autopilotStatusText.textContent = '🚀 Scraping & Sending Batch (Active)...';
+        if (autopilotPulse) autopilotPulse.classList.add('active');
+      } else if (data.enabled) {
+        autopilotStatusText.textContent = '🟢 Autopilot Active (Running Every Hour)';
+        if (autopilotPulse) autopilotPulse.classList.add('active');
+      } else {
+        autopilotStatusText.textContent = '⏸️ Autopilot Standby';
+        if (autopilotPulse) autopilotPulse.classList.remove('active');
+      }
+    }
+
+    if (btnToggleAutopilot) {
+      if (data.enabled) {
+        btnToggleAutopilot.textContent = '⏹️ Pause 24/7 Autopilot';
+        btnToggleAutopilot.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+      } else {
+        btnToggleAutopilot.textContent = '▶️ Start 24/7 Autopilot';
+        btnToggleAutopilot.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+      }
+    }
+
+    if (autopilotTotalSent) autopilotTotalSent.textContent = data.totalSentCount || 0;
+    if (apNextTarget && data.currentTarget) {
+      apNextTarget.textContent = `${data.currentTarget.niche} in ${data.currentTarget.city}`;
+    }
+
+    if (apNextRunCountdown) {
+      if (data.nextRunTime && data.enabled) {
+        const diffMs = new Date(data.nextRunTime).getTime() - Date.now();
+        const mins = Math.max(0, Math.ceil(diffMs / 60000));
+        apNextRunCountdown.textContent = `Next cycle scheduled: in ${mins} minute(s) (${new Date(data.nextRunTime).toLocaleTimeString()})`;
+      } else {
+        apNextRunCountdown.textContent = data.enabled ? 'Scheduling next cycle...' : 'Autopilot is paused. Click Start to begin.';
+      }
+    }
+
+    // Render Autopilot logs
+    if (autopilotTerminal && data.logs && data.logs.length > 0) {
+      autopilotTerminal.innerHTML = data.logs.map(l => {
+        const isSuccess = l.includes('✅') || l.includes('Delivered') || l.includes('Complete') || l.includes('verified');
+        const isError = l.includes('❌') || l.includes('Warning') || l.includes('Failed') || l.includes('Error');
+        const cls = isSuccess ? 'success' : isError ? 'error' : 'system';
+        return `<div class="log-line ${cls}">${escapeHtml(l)}</div>`;
+      }).join('');
+      autopilotTerminal.scrollTop = autopilotTerminal.scrollHeight;
+    }
+  } catch (_) {}
+}
+
+if (btnToggleAutopilot) {
+  btnToggleAutopilot.addEventListener('click', async () => {
+    btnToggleAutopilot.disabled = true;
+    try {
+      const resStatus = await fetch('/api/autopilot/status');
+      const curStatus = await resStatus.json();
+      const newEnabled = !curStatus.enabled;
+
+      const res = await fetch('/api/autopilot/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          enabled: newEnabled,
+          emailPass: apAppPassInput.value.trim(),
+          intervalMinutes: parseInt(apIntervalSelect.value, 10)
+        })
+      });
+
+      const updated = await res.json();
+      showToast(newEnabled ? 'Autopilot started! It will run every hour in the background.' : 'Autopilot paused.');
+      fetchAutopilotState();
+    } catch (err) {
+      alert('Error updating autopilot: ' + err.message);
+    } finally {
+      btnToggleAutopilot.disabled = false;
+    }
+  });
+}
+
+if (btnRunNowAutopilot) {
+  btnRunNowAutopilot.addEventListener('click', async () => {
+    btnRunNowAutopilot.disabled = true;
+    btnRunNowAutopilot.textContent = 'Starting...';
+
+    try {
+      // First save the current password
+      await fetch('/api/autopilot/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          emailPass: apAppPassInput.value.trim(),
+          intervalMinutes: parseInt(apIntervalSelect.value, 10)
+        })
+      });
+
+      const res = await fetch('/api/autopilot/run-now', { method: 'POST' });
+      const data = await res.json();
+      showToast('🚀 Immediate Autopilot Batch Started! Check logs below.');
+      fetchAutopilotState();
+    } catch (err) {
+      alert('Error starting immediate run: ' + err.message);
+    } finally {
+      btnRunNowAutopilot.disabled = false;
+      btnRunNowAutopilot.textContent = '🚀 Run 1 Batch Now (30 Leads)';
+    }
+  });
+}
+
+// Start continuous background polling for Autopilot tab
+setInterval(fetchAutopilotState, 4000);
+fetchAutopilotState();
+

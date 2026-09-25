@@ -325,6 +325,9 @@
           <button type="button" class="outreach-tab-btn" data-tab="tab-activity">
             📊 Live Campaign Activity
           </button>
+          <button type="button" class="outreach-tab-btn" data-tab="tab-autopilot" style="color: #34d399;">
+            🤖 24/7 Hourly Autopilot (30/hr)
+          </button>
         </div>
 
         <div class="modal-body" style="padding: 1.25rem 1.5rem;">
@@ -636,6 +639,71 @@ I put together a quick 30-second design preview of a modern, refreshed look for 
 
             <div class="terminal-body" id="outreachTerminal" style="height: 260px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.75rem 1rem; overflow-y: auto; background: rgba(0, 0, 0, 0.35); font-family: var(--font-mono); font-size: 0.8rem;">
               <div class="log-line system">[Outreach Bot] Ready. Configure your Email or Instagram settings above and click Launch.</div>
+            </div>
+          </div>
+
+          <!-- TAB 4: 24/7 HOURLY AUTOPILOT -->
+          <div id="tab-autopilot" class="outreach-tab-content hidden">
+            <div class="activity-header" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 1rem;">
+              <div class="activity-status" style="display: flex; align-items: center; gap: 0.5rem;">
+                <span class="pulse-indicator" id="autopilotPulse"></span>
+                <strong id="autopilotStatusText">Autopilot Standby</strong>
+              </div>
+              <div class="activity-counters" style="display: flex; gap: 1rem; font-size: 0.82rem;">
+                <span>Total Delivered: <strong id="autopilotTotalSent" style="color: #34d399;">0</strong></span>
+                <span>Batch Size: <strong style="color: #60a5fa;">30 leads/hour</strong></span>
+              </div>
+            </div>
+
+            <div class="outreach-grid">
+              <div class="outreach-col-left">
+                <h4 class="section-subtitle">1. Autopilot Controls & Credentials</h4>
+                
+                <div class="input-group">
+                  <label for="apSenderEmail">Gmail Address</label>
+                  <input type="email" id="apSenderEmail" value="editcraftstudio19@gmail.com" readonly style="background: rgba(255,255,255,0.03); color: var(--text-muted);">
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label for="apAppPassInput">Google App Password <small style="color: #fbbf24;">(16 letters)</small></label>
+                  <input type="password" id="apAppPassInput" placeholder="xxxx xxxx xxxx xxxx" value="Ramram@1872">
+                  <p class="field-hint" style="font-size: 0.72rem; color: #fbbf24; margin-top: 0.35rem; line-height: 1.35;">
+                    ⚠️ Google requires a 16-character <strong>App Password</strong> for automated bots (<a href="https://myaccount.google.com/apppasswords" target="_blank" style="color: #60a5fa; text-decoration: underline;">Generate in Google Account</a>). Standard account passwords are blocked by Google's anti-bot policy.
+                  </p>
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label for="apIntervalSelect">Automation Frequency</label>
+                  <select id="apIntervalSelect">
+                    <option value="60" selected>Every 1 Hour (30 leads/hr = 720/day)</option>
+                    <option value="120">Every 2 Hours (30 leads/2hr = 360/day)</option>
+                    <option value="30">Every 30 Minutes (Aggressive)</option>
+                  </select>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                  <button type="button" id="btnToggleAutopilot" class="btn btn-primary" style="flex: 1; background: linear-gradient(135deg, #10b981, #059669);">
+                    ▶️ Start 24/7 Autopilot
+                  </button>
+                  <button type="button" id="btnRunNowAutopilot" class="btn btn-secondary" style="white-space: nowrap;">
+                    🚀 Run 1 Batch Now (30 Leads)
+                  </button>
+                </div>
+              </div>
+
+              <div class="outreach-col-right">
+                <h4 class="section-subtitle">2. Live Autopilot Feed & Location Schedule</h4>
+                
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+                  <div style="color: var(--text-muted); margin-bottom: 0.25rem;">Next Hourly Target:</div>
+                  <strong id="apNextTarget" style="color: #60a5fa; font-size: 0.85rem;">Med Spa in Miami, FL</strong>
+                  <div id="apNextRunCountdown" style="color: var(--text-dim); font-size: 0.72rem; margin-top: 0.2rem;">Next cycle: In 60 minutes</div>
+                </div>
+
+                <div class="terminal-body" id="autopilotTerminal" style="height: 220px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.75rem 1rem; overflow-y: auto; background: rgba(0, 0, 0, 0.4); font-family: var(--font-mono); font-size: 0.78rem;">
+                  <div class="log-line system">[Autopilot Engine] Standby. Click "Start 24/7 Autopilot" or "Run 1 Batch Now" to begin sending.</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

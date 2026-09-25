@@ -233,6 +233,8 @@ app.post('/api/leads/enrich-socials', async (req, res) => {
 const { runEmailCampaign, verifyConnection, createTransporter } = require('./src/mailer');
 const { runInstagramCampaign } = require('./src/instagram-bot');
 
+const autopilot = require('./src/autopilot');
+
 // Active outreach state
 let activeOutreach = {
   running: false,
@@ -243,6 +245,23 @@ let activeOutreach = {
   failed: 0,
   logs: []
 };
+
+// Autopilot Status & Logs
+app.get('/api/autopilot/status', (req, res) => {
+  res.json(autopilot.getStatus());
+});
+
+// Update Autopilot Settings (enable/disable, password, interval, etc.)
+app.post('/api/autopilot/config', (req, res) => {
+  const updated = autopilot.updateConfig(req.body);
+  res.json(updated);
+});
+
+// Trigger an immediate Autopilot cycle
+app.post('/api/autopilot/run-now', async (req, res) => {
+  res.json({ message: 'Autopilot run initiated in background' });
+  autopilot.runCycle(true);
+});
 
 // Test email connection & send test email
 app.post('/api/outreach/email/test', async (req, res) => {
