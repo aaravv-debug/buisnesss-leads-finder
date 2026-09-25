@@ -4,6 +4,21 @@ const path = require('path');
 const jobs = require('./src/jobs');
 const { enrichWebsite, enrichLeadComprehensively } = require('./src/enricher');
 
+// Prevent Windows Puppeteer file-lock cleanup crashes
+process.on('unhandledRejection', (reason) => {
+  if (reason && (reason.code === 'EBUSY' || String(reason).includes('EBUSY') || (reason.path && reason.path.includes('puppeteer')))) {
+    return;
+  }
+  console.error('[Server Unhandled Rejection]', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  if (err && (err.code === 'EBUSY' || String(err).includes('EBUSY') || (err.path && err.path.includes('puppeteer')))) {
+    return;
+  }
+  console.error('[Server Uncaught Exception]', err);
+});
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -220,7 +235,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`====================================================`);
   console.log(`🚀 Leads Finder Scraper App running on:`);
   console.log(`👉 http://localhost:${PORT}`);

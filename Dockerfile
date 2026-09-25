@@ -1,18 +1,22 @@
 FROM node:20-slim
 
-# Install latest Google Chrome stable and dependencies for Puppeteer
-RUN apt-get update \
-    && apt-get install -y wget gnupg ca-certificates \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/googlechrome-linux-keyring.gpg \
-    && sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/googlechrome-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
-      --no-install-recommends \
+# Install Chromium and fonts directly from Debian official repositories
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    chromium \
+    fonts-liberation \
+    fonts-freefont-ttf \
+    fonts-ipafont-gothic \
+    fonts-wqy-zenhei \
+    libnss3 \
+    libxss1 \
+    libasound2 \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable \
-    PORT=3000
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
+    PORT=3000 \
+    NODE_ENV=production
 
 WORKDIR /app
 
