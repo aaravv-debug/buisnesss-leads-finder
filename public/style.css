@@ -1177,6 +1177,19 @@ input[type="text"]:focus, select:focus, textarea:focus {
   border: 1px solid rgba(59, 130, 246, 0.25);
 }
 
+.chip-outdated-web {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.15);
+}
+
+.chip-modern-web {
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
 .chip-no-web {
   background: rgba(239, 68, 68, 0.15);
   color: #f87171;
@@ -1184,10 +1197,54 @@ input[type="text"]:focus, select:focus, textarea:focus {
   box-shadow: 0 0 8px rgba(239, 68, 68, 0.15);
 }
 
+.audit-score-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+
+.audit-score-pill.score-warning {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.audit-score-pill.score-good {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
 .pitch-hint {
   font-size: 0.7rem;
   color: #fbbf24;
   font-weight: 500;
+}
+
+.pitch-redesign-hint {
+  font-size: 0.68rem;
+  color: #fcd34d;
+  max-width: 240px;
+  line-height: 1.25;
+}
+
+.var-pill-redesign, .var-pill-ig-redesign {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.var-pill-redesign:hover, .var-pill-ig-redesign:hover {
+  background: rgba(245, 158, 11, 0.3);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .address-subtext {

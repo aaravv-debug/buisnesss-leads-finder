@@ -272,7 +272,15 @@ app.post('/api/outreach/email/test', async (req, res) => {
 
 // Launch Email Campaign
 app.post('/api/outreach/email', async (req, res) => {
-  const { leads = [], config, subjectTemplate, bodyTemplate, delaySeconds = 20 } = req.body;
+  const {
+    leads = [],
+    config,
+    subjectTemplate,
+    bodyTemplate,
+    subjectTemplateRedesign,
+    bodyTemplateRedesign,
+    delaySeconds = 20
+  } = req.body;
 
   if (activeOutreach.running) {
     return res.status(400).json({ error: 'Another outreach campaign is currently running.' });
@@ -300,6 +308,8 @@ app.post('/api/outreach/email', async (req, res) => {
     config,
     subjectTemplate,
     bodyTemplate,
+    subjectTemplateRedesign,
+    bodyTemplateRedesign,
     delaySeconds,
     onProgress: (p) => {
       activeOutreach.current = p.current;
@@ -317,7 +327,14 @@ app.post('/api/outreach/email', async (req, res) => {
 
 // Launch Instagram DM Campaign
 app.post('/api/outreach/instagram', async (req, res) => {
-  const { leads = [], credentials, messageTemplate, delaySeconds = 60, headless = false } = req.body;
+  const {
+    leads = [],
+    credentials,
+    messageTemplate,
+    messageTemplateRedesign,
+    delaySeconds = 60,
+    headless = false
+  } = req.body;
 
   if (activeOutreach.running) {
     return res.status(400).json({ error: 'Another outreach campaign is currently running.' });
@@ -340,6 +357,7 @@ app.post('/api/outreach/instagram', async (req, res) => {
     leads,
     credentials,
     messageTemplate,
+    messageTemplateRedesign,
     delaySeconds,
     headless,
     onProgress: (p) => {

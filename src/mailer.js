@@ -43,21 +43,31 @@ async function verifyConnection(config) {
 }
 
 /**
- * Replace placeholders like {{name}}, {{city}}, {{category}}
+ * Replace placeholders like {{name}}, {{city}}, {{category}}, {{website}}, {{audit_issues}}, {{portfolio}}
  */
 function interpolateTemplate(template, lead) {
   if (!template) return '';
+  const audit = lead.websiteAudit || {};
+  const issuesList = audit.issues && audit.issues.length > 0 ? audit.issues.join('; ') : 'not mobile optimized';
+  const firstIssue = audit.issues && audit.issues.length > 0 ? audit.issues[0] : 'not mobile optimized';
+  const auditSummary = audit.summary || 'could use a modern refresh';
+
   return template
     .replace(/\{\{\s*name\s*\}\}/gi, lead.name || 'there')
     .replace(/\{\{\s*city\s*\}\}/gi, lead.city || 'your area')
     .replace(/\{\{\s*category\s*\}\}/gi, lead.category || 'local business')
-    .replace(/\{\{\s*website\s*\}\}/gi, lead.website || 'none')
+    .replace(/\{\{\s*website\s*\}\}/gi, lead.website || 'your website')
     .replace(/\{\{\s*phone\s*\}\}/gi, lead.phone || '')
-    .replace(/\{\{\s*portfolio\s*\}\}/gi, 'https://aaravsinh-rathod-portfolio-9.vercel.app/');
+    .replace(/\{\{\s*portfolio\s*\}\}/gi, 'https://aaravsinh-rathod-portfolio-9.vercel.app/')
+    .replace(/\{\{\s*audit_issues\s*\}\}/gi, issuesList)
+    .replace(/\{\{\s*audit_first_issue\s*\}\}/gi, firstIssue)
+    .replace(/\{\{\s*audit_summary\s*\}\}/gi, auditSummary);
 }
 
 /**
- * Run automated cold email outreach campaign with safe human-paced delays
+ * Run automated cold email outreach campaign with safe human-paced delays.
+ * Features Smart Adaptive Pitching: Automatically sends "No Website" pitch to businesses without a site,
+ * and "Website Redesign & Modernization" pitch to businesses with an existing/outdated site.
  */
 async function runEmailCampaign(options) {
   const {
@@ -65,6 +75,8 @@ async function runEmailCampaign(options) {
     config,
     subjectTemplate,
     bodyTemplate,
+    subjectTemplateRedesign,
+    bodyTemplateRedesign,
     delaySeconds = 25,
     onProgress = () => {},
     onLog = () => {}
@@ -93,10 +105,22 @@ async function runEmailCampaign(options) {
       continue;
     }
 
-    const personalizedSubject = interpolateTemplate(subjectTemplate, lead);
-    const personalizedBody = interpolateTemplate(bodyTemplate, lead);
+    // Smart Adaptive Pitch Selection:
+    // If the business has a website and a redesign template is provided, use the Redesign pitch!
+    const hasWebsite = Boolean(lead.website);
+    let chosenSubject = subjectTemplate;
+    let chosenBody = bodyTemplate;
 
-    onLog(`[Email Bot] [${i + 1}/${leads.length}] Sending to ${lead.name} (${targetEmail})...`);
+    if (hasWebsite && bodyTemplateRedesign) {
+      chosenBody = bodyTemplateRedesign;
+      if (subjectTemplateRedesign) chosenSubject = subjectTemplateRedesign;
+    }
+
+    const personalizedSubject = interpolateTemplate(chosenSubject, lead);
+    const personalizedBody = interpolateTemplate(chosenBody, lead);
+
+    const pitchType = hasWebsite && bodyTemplateRedesign ? '🎨 Redesign Pitch' : '📝 New Website Pitch';
+    onLog(`[Email Bot] [${i + 1}/${leads.length}] Sending ${pitchType} to ${lead.name} (${targetEmail})...`);
 
     try {
       await transporter.sendMail({

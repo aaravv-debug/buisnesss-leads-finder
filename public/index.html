@@ -201,6 +201,8 @@
               <button class="filter-chip" data-filter="hasInstagram">📸 Instagram</button>
               <button class="filter-chip" data-filter="hasFacebook">📘 Facebook</button>
               <button class="filter-chip" data-filter="noWebsite">🔥 Needs Website</button>
+              <button class="filter-chip" data-filter="outdatedWebsite">⚠️ Outdated (Redesign)</button>
+              <button class="filter-chip" data-filter="modernWebsite">✅ Modern</button>
             </div>
 
             <div class="export-actions">
@@ -378,24 +380,45 @@
               </div>
 
               <div class="outreach-col-right">
-                <h4 class="section-subtitle">2. High-Converting Pitch Template</h4>
-                <div class="variable-pills" style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-                  <span style="font-size: 0.72rem; color: var(--text-muted);">Insert variable:</span>
-                  <button type="button" class="var-pill" data-var="{{name}}">{{name}}</button>
-                  <button type="button" class="var-pill" data-var="{{city}}">{{city}}</button>
-                  <button type="button" class="var-pill" data-var="{{category}}">{{category}}</button>
-                  <button type="button" class="var-pill" data-var="{{website}}">{{website}}</button>
-                  <button type="button" class="var-pill" data-var="https://aaravsinh-rathod-portfolio-9.vercel.app/">Portfolio Link</button>
+                <h4 class="section-subtitle">2. Pitch Strategy & Outreach Templates</h4>
+
+                <div class="input-group" style="margin-bottom: 0.75rem;">
+                  <label for="emailAudienceSelect">🎯 Target Audience</label>
+                  <select id="emailAudienceSelect">
+                    <option value="all" selected>✨ All Leads (Smart Adaptive: Auto-picks Pitch 1 for No Website & Pitch 2 for Redesign)</option>
+                    <option value="no_website">🔥 Only Leads with NO Website (Pitch 1: New Build)</option>
+                    <option value="outdated_website">⚠️ Only Leads with OUTDATED Website (Pitch 2: Redesign)</option>
+                    <option value="has_website">🌐 All Leads with Existing Website (Pitch 2: Redesign)</option>
+                  </select>
                 </div>
 
-                <div class="input-group">
-                  <label for="emailSubject">Subject Line</label>
-                  <input type="text" id="emailSubject" value="Quick question regarding {{name}}'s online booking">
+                <div class="pitch-subtabs" style="display: flex; gap: 0.35rem; margin-bottom: 0.75rem; background: rgba(0, 0, 0, 0.25); padding: 0.25rem; border-radius: var(--radius-sm);">
+                  <button type="button" class="pitch-subtab-btn active" id="btnPitchEmailNoWeb" data-target="emailPitchNoWebGroup" style="flex: 1; padding: 0.4rem 0.6rem; font-size: 0.75rem; font-weight: 600; border-radius: 4px; border: none; cursor: pointer; background: var(--primary); color: #fff;">
+                    📝 Pitch 1: No Website (New Build)
+                  </button>
+                  <button type="button" class="pitch-subtab-btn" id="btnPitchEmailRedesign" data-target="emailPitchRedesignGroup" style="flex: 1; padding: 0.4rem 0.6rem; font-size: 0.75rem; font-weight: 600; border-radius: 4px; border: none; cursor: pointer; background: transparent; color: var(--text-muted);">
+                    🎨 Pitch 2: Outdated Website (Redesign)
+                  </button>
                 </div>
 
-                <div class="input-group" style="margin-top: 0.75rem;">
-                  <label for="emailBody">Email Body</label>
-                  <textarea id="emailBody" rows="10" style="font-size: 0.82rem; line-height: 1.45;">Hi {{name}} team! 👋
+                <!-- PITCH 1 CONTAINER: NO WEBSITE -->
+                <div id="emailPitchNoWebGroup">
+                  <div class="variable-pills" style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                    <span style="font-size: 0.72rem; color: var(--text-muted);">Insert variable:</span>
+                    <button type="button" class="var-pill" data-var="{{name}}">{{name}}</button>
+                    <button type="button" class="var-pill" data-var="{{city}}">{{city}}</button>
+                    <button type="button" class="var-pill" data-var="{{category}}">{{category}}</button>
+                    <button type="button" class="var-pill" data-var="https://aaravsinh-rathod-portfolio-9.vercel.app/">Portfolio Link</button>
+                  </div>
+
+                  <div class="input-group">
+                    <label for="emailSubject">Subject Line (No Website)</label>
+                    <input type="text" id="emailSubject" value="Quick question regarding {{name}}'s online booking">
+                  </div>
+
+                  <div class="input-group" style="margin-top: 0.75rem;">
+                    <label for="emailBody">Email Body (No Website)</label>
+                    <textarea id="emailBody" rows="9" style="font-size: 0.82rem; line-height: 1.45;">Hi {{name}} team! 👋
 
 I was looking at top {{category}} businesses in {{city}} and noticed your profile currently doesn't have an active website or mobile booking link for new clients.
 
@@ -410,6 +433,46 @@ Best regards,
 Aaravsinh Rathod
 Web Developer & Designer
 https://aaravsinh-rathod-portfolio-9.vercel.app/</textarea>
+                  </div>
+                </div>
+
+                <!-- PITCH 2 CONTAINER: OUTDATED WEBSITE REDESIGN -->
+                <div id="emailPitchRedesignGroup" class="hidden">
+                  <div class="variable-pills" style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                    <span style="font-size: 0.72rem; color: var(--text-muted);">Insert variable:</span>
+                    <button type="button" class="var-pill-redesign" data-var="{{name}}">{{name}}</button>
+                    <button type="button" class="var-pill-redesign" data-var="{{city}}">{{city}}</button>
+                    <button type="button" class="var-pill-redesign" data-var="{{category}}">{{category}}</button>
+                    <button type="button" class="var-pill-redesign" data-var="{{website}}">{{website}}</button>
+                    <button type="button" class="var-pill-redesign" data-var="{{audit_summary}}">{{audit_summary}}</button>
+                    <button type="button" class="var-pill-redesign" data-var="https://aaravsinh-rathod-portfolio-9.vercel.app/">Portfolio Link</button>
+                  </div>
+
+                  <div class="input-group">
+                    <label for="emailSubjectRedesign">Subject Line (Website Redesign)</label>
+                    <input type="text" id="emailSubjectRedesign" value="Quick thoughts on modernizing {{name}}'s website & mobile booking">
+                  </div>
+
+                  <div class="input-group" style="margin-top: 0.75rem;">
+                    <label for="emailBodyRedesign">Email Body (Website Redesign)</label>
+                    <textarea id="emailBodyRedesign" rows="9" style="font-size: 0.82rem; line-height: 1.45;">Hi {{name}} team! 👋
+
+I was looking at top {{category}} businesses in {{city}} and was reviewing your current website ({{website}}).
+
+I noticed a few areas where modernizing the layout and adding a direct mobile-friendly booking flow could easily bring you 5-10 more client bookings each week.
+
+I specialize in modern website redesigns and high-speed booking systems for {{category}} practices. You can see my recent client redesigns and portfolio here:
+👉 https://aaravsinh-rathod-portfolio-9.vercel.app/
+
+I put together a quick 30-second preview demo showing what a modern, faster 2026 version of {{name}}'s website could look like.
+
+Would you be open to me sending the preview link over? No pressure at all, just thought it might give you some great ideas!
+
+Best regards,
+Aaravsinh Rathod
+Web Developer & Designer
+https://aaravsinh-rathod-portfolio-9.vercel.app/</textarea>
+                  </div>
                 </div>
 
                 <div class="input-group" style="margin-top: 0.75rem;">
@@ -471,18 +534,40 @@ https://aaravsinh-rathod-portfolio-9.vercel.app/</textarea>
               </div>
 
               <div class="outreach-col-right">
-                <h4 class="section-subtitle">2. Personalized Direct Message (DM)</h4>
-                <div class="variable-pills" style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
-                  <span style="font-size: 0.72rem; color: var(--text-muted);">Insert variable:</span>
-                  <button type="button" class="var-pill-ig" data-var="{{name}}">{{name}}</button>
-                  <button type="button" class="var-pill-ig" data-var="{{city}}">{{city}}</button>
-                  <button type="button" class="var-pill-ig" data-var="{{category}}">{{category}}</button>
-                  <button type="button" class="var-pill-ig" data-var="https://aaravsinh-rathod-portfolio-9.vercel.app/">Portfolio Link</button>
+                <h4 class="section-subtitle">2. Pitch Strategy & DM Template</h4>
+
+                <div class="input-group" style="margin-bottom: 0.75rem;">
+                  <label for="igAudienceSelect">🎯 Target Audience</label>
+                  <select id="igAudienceSelect">
+                    <option value="all" selected>✨ All Leads (Smart Adaptive: Auto-picks Pitch 1 for No Website & Pitch 2 for Redesign)</option>
+                    <option value="no_website">🔥 Only Leads with NO Website (Pitch 1: New Build)</option>
+                    <option value="outdated_website">⚠️ Only Leads with OUTDATED Website (Pitch 2: Redesign)</option>
+                    <option value="has_website">🌐 All Leads with Existing Website (Pitch 2: Redesign)</option>
+                  </select>
                 </div>
 
-                <div class="input-group">
-                  <label for="igMessageBody">DM Message Body</label>
-                  <textarea id="igMessageBody" rows="9" style="font-size: 0.82rem; line-height: 1.45;">Hi {{name}} team! 👋
+                <div class="pitch-subtabs" style="display: flex; gap: 0.35rem; margin-bottom: 0.75rem; background: rgba(0, 0, 0, 0.25); padding: 0.25rem; border-radius: var(--radius-sm);">
+                  <button type="button" class="pitch-subtab-btn active" id="btnPitchIgNoWeb" data-target="igPitchNoWebGroup" style="flex: 1; padding: 0.4rem 0.6rem; font-size: 0.75rem; font-weight: 600; border-radius: 4px; border: none; cursor: pointer; background: var(--primary); color: #fff;">
+                    📝 Pitch 1: No Website
+                  </button>
+                  <button type="button" class="pitch-subtab-btn" id="btnPitchIgRedesign" data-target="igPitchRedesignGroup" style="flex: 1; padding: 0.4rem 0.6rem; font-size: 0.75rem; font-weight: 600; border-radius: 4px; border: none; cursor: pointer; background: transparent; color: var(--text-muted);">
+                    🎨 Pitch 2: Outdated Website (Redesign)
+                  </button>
+                </div>
+
+                <!-- IG PITCH 1 CONTAINER: NO WEBSITE -->
+                <div id="igPitchNoWebGroup">
+                  <div class="variable-pills" style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                    <span style="font-size: 0.72rem; color: var(--text-muted);">Insert variable:</span>
+                    <button type="button" class="var-pill-ig" data-var="{{name}}">{{name}}</button>
+                    <button type="button" class="var-pill-ig" data-var="{{city}}">{{city}}</button>
+                    <button type="button" class="var-pill-ig" data-var="{{category}}">{{category}}</button>
+                    <button type="button" class="var-pill-ig" data-var="https://aaravsinh-rathod-portfolio-9.vercel.app/">Portfolio Link</button>
+                  </div>
+
+                  <div class="input-group">
+                    <label for="igMessageBody">DM Body (No Website)</label>
+                    <textarea id="igMessageBody" rows="9" style="font-size: 0.82rem; line-height: 1.45;">Hi {{name}} team! 👋
 
 Loved your work and reviews in {{city}}!
 
@@ -493,7 +578,32 @@ I specialize in building high-converting booking websites for {{category}} pract
 I put together a quick 30-second design preview of how a booking page could look for {{name}}. 
 
 Would you mind if I sent the preview link over? No pressure at all!</textarea>
+                  </div>
                 </div>
+
+                <!-- IG PITCH 2 CONTAINER: OUTDATED WEBSITE REDESIGN -->
+                <div id="igPitchRedesignGroup" class="hidden">
+                  <div class="variable-pills" style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                    <span style="font-size: 0.72rem; color: var(--text-muted);">Insert variable:</span>
+                    <button type="button" class="var-pill-ig-redesign" data-var="{{name}}">{{name}}</button>
+                    <button type="button" class="var-pill-ig-redesign" data-var="{{city}}">{{city}}</button>
+                    <button type="button" class="var-pill-ig-redesign" data-var="{{category}}">{{category}}</button>
+                    <button type="button" class="var-pill-ig-redesign" data-var="{{website}}">{{website}}</button>
+                    <button type="button" class="var-pill-ig-redesign" data-var="https://aaravsinh-rathod-portfolio-9.vercel.app/">Portfolio Link</button>
+                  </div>
+
+                  <div class="input-group">
+                    <label for="igMessageBodyRedesign">DM Body (Website Redesign)</label>
+                    <textarea id="igMessageBodyRedesign" rows="9" style="font-size: 0.82rem; line-height: 1.45;">Hi {{name}} team! 👋
+
+Loved your work and reviews in {{city}}! I checked out your website ({{website}}) from your bio and noticed the layout and mobile booking flow haven't been updated in a while.
+
+I specialize in website redesigns and high-speed booking systems for {{category}} practices (portfolio: https://aaravsinh-rathod-portfolio-9.vercel.app/).
+
+I put together a quick 30-second design preview of a modern, refreshed look for {{name}}. Would you mind if I sent the preview over? No pressure at all!</textarea>
+                  </div>
+                </div>
+
               </div>
             </div>
 

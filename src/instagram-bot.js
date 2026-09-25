@@ -48,6 +48,7 @@ async function runInstagramCampaign(options) {
     leads = [],
     credentials = {},
     messageTemplate,
+    messageTemplateRedesign,
     delaySeconds = 60,
     headless = false, // headful by default so user can handle 2FA/security challenge if prompted
     onProgress = () => {},
@@ -149,11 +150,14 @@ async function runInstagramCampaign(options) {
 
     // Loop through leads and send DMs
     for (let i = 0; i < validLeads.length; i++) {
-      const lead = validLeads[i];
-      const igUrl = lead.socials.instagram;
-      const personalizedMessage = interpolateTemplate(messageTemplate, lead);
+       const lead = validLeads[i];
+       const igUrl = lead.socials.instagram;
+       const hasWebsite = Boolean(lead.website);
+       const chosenTemplate = (hasWebsite && messageTemplateRedesign) ? messageTemplateRedesign : messageTemplate;
+       const personalizedMessage = interpolateTemplate(chosenTemplate, lead);
 
-      onLog(`[Instagram Bot] [${i + 1}/${validLeads.length}] Navigating to profile: ${lead.name} (${igUrl})...`);
+       const pitchType = hasWebsite && messageTemplateRedesign ? '🎨 Redesign Pitch' : '📝 New Website Pitch';
+       onLog(`[Instagram Bot] [${i + 1}/${validLeads.length}] (${pitchType}) Navigating to profile: ${lead.name} (${igUrl})...`);
 
       try {
         await page.goto(igUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });

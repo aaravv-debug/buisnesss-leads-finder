@@ -311,15 +311,42 @@ function appendLeadRow(lead) {
   let websiteStatusHtml = '';
   if (lead.website) {
     let displayUrl = lead.website.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '');
-    websiteStatusHtml = `
-      <div class="website-cell">
-        <a href="${lead.website}" target="_blank" class="website-link" title="${lead.website}">
-          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          ${escapeHtml(displayUrl)}
-        </a>
-        <span class="status-chip chip-has-web">Has Website</span>
-      </div>
-    `;
+    const audit = lead.websiteAudit || {};
+    const isOutdated = audit.isOutdated;
+    const score = audit.score !== undefined ? audit.score : 85;
+    const issues = audit.issues || [];
+    const tooltip = issues.length > 0 ? issues.join(' • ') : 'Website audited';
+
+    if (isOutdated) {
+      websiteStatusHtml = `
+        <div class="website-cell">
+          <a href="${lead.website}" target="_blank" class="website-link" title="${lead.website}">
+            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            ${escapeHtml(displayUrl)}
+          </a>
+          <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
+            <span class="status-chip chip-outdated-web" title="${escapeHtml(tooltip)}">⚠️ OUTDATED</span>
+            <span class="audit-score-pill score-warning" title="Modernity Score: ${score}/100">${score}/100</span>
+          </div>
+          <span class="pitch-hint pitch-redesign-hint" title="${escapeHtml(tooltip)}">
+            💡 ${escapeHtml(issues[0] || 'Needs modern redesign')}
+          </span>
+        </div>
+      `;
+    } else {
+      websiteStatusHtml = `
+        <div class="website-cell">
+          <a href="${lead.website}" target="_blank" class="website-link" title="${lead.website}">
+            <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            ${escapeHtml(displayUrl)}
+          </a>
+          <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
+            <span class="status-chip chip-modern-web" title="${escapeHtml(tooltip)}">✅ Modern Website</span>
+            <span class="audit-score-pill score-good" title="Modernity Score: ${score}/100">${score}/100</span>
+          </div>
+        </div>
+      `;
+    }
   } else {
     websiteStatusHtml = `
       <div class="no-web-pitch-cell">
@@ -392,6 +419,10 @@ function filterLeads(leads) {
       return lead.socials && Boolean(lead.socials.facebook);
     } else if (activeFilter === 'noWebsite') {
       return !lead.website;
+    } else if (activeFilter === 'outdatedWebsite') {
+      return lead.website && lead.websiteAudit?.isOutdated;
+    } else if (activeFilter === 'modernWebsite') {
+      return lead.website && !lead.websiteAudit?.isOutdated;
     }
 
     return true;
@@ -413,6 +444,8 @@ function matchesFilter(lead) {
   if (activeFilter === 'hasInstagram') return lead.socials && Boolean(lead.socials.instagram);
   if (activeFilter === 'hasFacebook') return lead.socials && Boolean(lead.socials.facebook);
   if (activeFilter === 'noWebsite') return !lead.website;
+  if (activeFilter === 'outdatedWebsite') return lead.website && lead.websiteAudit?.isOutdated;
+  if (activeFilter === 'modernWebsite') return lead.website && !lead.websiteAudit?.isOutdated;
 
   return true;
 }
@@ -646,8 +679,17 @@ const smtpHost = document.getElementById('smtpHost');
 const smtpPort = document.getElementById('smtpPort');
 const testEmailInput = document.getElementById('testEmailInput');
 const btnTestEmail = document.getElementById('btnTestEmail');
+
+const emailAudienceSelect = document.getElementById('emailAudienceSelect');
 const emailSubject = document.getElementById('emailSubject');
 const emailBody = document.getElementById('emailBody');
+const emailSubjectRedesign = document.getElementById('emailSubjectRedesign');
+const emailBodyRedesign = document.getElementById('emailBodyRedesign');
+const btnPitchEmailNoWeb = document.getElementById('btnPitchEmailNoWeb');
+const btnPitchEmailRedesign = document.getElementById('btnPitchEmailRedesign');
+const emailPitchNoWebGroup = document.getElementById('emailPitchNoWebGroup');
+const emailPitchRedesignGroup = document.getElementById('emailPitchRedesignGroup');
+
 const emailDelaySelect = document.getElementById('emailDelaySelect');
 const btnLaunchEmail = document.getElementById('btnLaunchEmail');
 const emailTargetCount = document.getElementById('emailTargetCount');
@@ -657,7 +699,15 @@ const igUsername = document.getElementById('igUsername');
 const igPassword = document.getElementById('igPassword');
 const igDelaySelect = document.getElementById('igDelaySelect');
 const igHeadlessToggle = document.getElementById('igHeadlessToggle');
+
+const igAudienceSelect = document.getElementById('igAudienceSelect');
 const igMessageBody = document.getElementById('igMessageBody');
+const igMessageBodyRedesign = document.getElementById('igMessageBodyRedesign');
+const btnPitchIgNoWeb = document.getElementById('btnPitchIgNoWeb');
+const btnPitchIgRedesign = document.getElementById('btnPitchIgRedesign');
+const igPitchNoWebGroup = document.getElementById('igPitchNoWebGroup');
+const igPitchRedesignGroup = document.getElementById('igPitchRedesignGroup');
+
 const btnLaunchIg = document.getElementById('btnLaunchIg');
 const igTargetCount = document.getElementById('igTargetCount');
 
@@ -713,6 +763,48 @@ if (smtpProvider) {
   });
 }
 
+// Pitch Subtab Switching: Email
+if (btnPitchEmailNoWeb && btnPitchEmailRedesign) {
+  btnPitchEmailNoWeb.addEventListener('click', () => {
+    btnPitchEmailNoWeb.style.background = 'var(--primary)';
+    btnPitchEmailNoWeb.style.color = '#fff';
+    btnPitchEmailRedesign.style.background = 'transparent';
+    btnPitchEmailRedesign.style.color = 'var(--text-muted)';
+    emailPitchNoWebGroup.classList.remove('hidden');
+    emailPitchRedesignGroup.classList.add('hidden');
+  });
+
+  btnPitchEmailRedesign.addEventListener('click', () => {
+    btnPitchEmailRedesign.style.background = 'var(--primary)';
+    btnPitchEmailRedesign.style.color = '#fff';
+    btnPitchEmailNoWeb.style.background = 'transparent';
+    btnPitchEmailNoWeb.style.color = 'var(--text-muted)';
+    emailPitchRedesignGroup.classList.remove('hidden');
+    emailPitchNoWebGroup.classList.add('hidden');
+  });
+}
+
+// Pitch Subtab Switching: Instagram
+if (btnPitchIgNoWeb && btnPitchIgRedesign) {
+  btnPitchIgNoWeb.addEventListener('click', () => {
+    btnPitchIgNoWeb.style.background = 'var(--primary)';
+    btnPitchIgNoWeb.style.color = '#fff';
+    btnPitchIgRedesign.style.background = 'transparent';
+    btnPitchIgRedesign.style.color = 'var(--text-muted)';
+    igPitchNoWebGroup.classList.remove('hidden');
+    igPitchRedesignGroup.classList.add('hidden');
+  });
+
+  btnPitchIgRedesign.addEventListener('click', () => {
+    btnPitchIgRedesign.style.background = 'var(--primary)';
+    btnPitchIgRedesign.style.color = '#fff';
+    btnPitchIgNoWeb.style.background = 'transparent';
+    btnPitchIgNoWeb.style.color = 'var(--text-muted)';
+    igPitchRedesignGroup.classList.remove('hidden');
+    igPitchNoWebGroup.classList.add('hidden');
+  });
+}
+
 // Variable Pills Helper
 document.querySelectorAll('.var-pill').forEach(pill => {
   pill.addEventListener('click', () => {
@@ -720,9 +812,21 @@ document.querySelectorAll('.var-pill').forEach(pill => {
   });
 });
 
+document.querySelectorAll('.var-pill-redesign').forEach(pill => {
+  pill.addEventListener('click', () => {
+    if (emailBodyRedesign) insertAtCursor(emailBodyRedesign, pill.dataset.var);
+  });
+});
+
 document.querySelectorAll('.var-pill-ig').forEach(pill => {
   pill.addEventListener('click', () => {
     insertAtCursor(igMessageBody, pill.dataset.var);
+  });
+});
+
+document.querySelectorAll('.var-pill-ig-redesign').forEach(pill => {
+  pill.addEventListener('click', () => {
+    if (igMessageBodyRedesign) insertAtCursor(igMessageBodyRedesign, pill.dataset.var);
   });
 });
 
@@ -734,12 +838,41 @@ function insertAtCursor(textarea, text) {
   textarea.selectionStart = textarea.selectionEnd = start + text.length;
 }
 
-function updateOutreachTargetCounts() {
-  const emailLeads = allLeads.filter(l => l.emails && l.emails.length > 0);
-  const igLeads = allLeads.filter(l => l.socials && l.socials.instagram);
+function getFilteredEmailLeads() {
+  const mode = emailAudienceSelect ? emailAudienceSelect.value : 'all';
+  return allLeads.filter(l => {
+    if (!l.emails || l.emails.length === 0) return false;
+    if (mode === 'no_website') return !l.website;
+    if (mode === 'outdated_website') return l.website && l.websiteAudit?.isOutdated;
+    if (mode === 'has_website') return Boolean(l.website);
+    return true; // 'all'
+  });
+}
 
-  if (emailTargetCount) emailTargetCount.textContent = `${emailLeads.length} leads with email ready`;
-  if (igTargetCount) igTargetCount.textContent = `${igLeads.length} leads with Instagram ready`;
+function getFilteredIgLeads() {
+  const mode = igAudienceSelect ? igAudienceSelect.value : 'all';
+  return allLeads.filter(l => {
+    if (!l.socials || !l.socials.instagram) return false;
+    if (mode === 'no_website') return !l.website;
+    if (mode === 'outdated_website') return l.website && l.websiteAudit?.isOutdated;
+    if (mode === 'has_website') return Boolean(l.website);
+    return true; // 'all'
+  });
+}
+
+function updateOutreachTargetCounts() {
+  const emailLeads = getFilteredEmailLeads();
+  const igLeads = getFilteredIgLeads();
+
+  if (emailTargetCount) emailTargetCount.textContent = `${emailLeads.length} leads selected`;
+  if (igTargetCount) igTargetCount.textContent = `${igLeads.length} leads selected`;
+}
+
+if (emailAudienceSelect) {
+  emailAudienceSelect.addEventListener('change', updateOutreachTargetCounts);
+}
+if (igAudienceSelect) {
+  igAudienceSelect.addEventListener('change', updateOutreachTargetCounts);
 }
 
 // Test Email Send
@@ -791,10 +924,10 @@ if (btnLaunchEmail) {
   btnLaunchEmail.addEventListener('click', async () => {
     const user = smtpUser.value.trim();
     const pass = smtpPass.value.trim();
-    const emailLeads = allLeads.filter(l => l.emails && l.emails.length > 0);
+    const emailLeads = getFilteredEmailLeads();
 
     if (emailLeads.length === 0) {
-      showToast('No leads with email found in your current results. Scrape leads first!');
+      showToast('No matching leads found for the selected audience. Adjust your audience or scrape leads first!');
       return;
     }
 
@@ -821,6 +954,8 @@ if (btnLaunchEmail) {
           },
           subjectTemplate: emailSubject.value,
           bodyTemplate: emailBody.value,
+          subjectTemplateRedesign: emailSubjectRedesign ? emailSubjectRedesign.value : emailSubject.value,
+          bodyTemplateRedesign: emailBodyRedesign ? emailBodyRedesign.value : emailBody.value,
           delaySeconds: parseInt(emailDelaySelect.value, 10)
         })
       });
@@ -843,10 +978,10 @@ if (btnLaunchEmail) {
 // Launch Instagram DM Campaign
 if (btnLaunchIg) {
   btnLaunchIg.addEventListener('click', async () => {
-    const igLeads = allLeads.filter(l => l.socials && l.socials.instagram);
+    const igLeads = getFilteredIgLeads();
 
     if (igLeads.length === 0) {
-      showToast('No leads with Instagram found in current results. Scrape leads first!');
+      showToast('No matching leads with Instagram found for selected audience.');
       return;
     }
 
@@ -863,6 +998,7 @@ if (btnLaunchIg) {
             password: igPassword.value.trim()
           },
           messageTemplate: igMessageBody.value,
+          messageTemplateRedesign: igMessageBodyRedesign ? igMessageBodyRedesign.value : igMessageBody.value,
           delaySeconds: parseInt(igDelaySelect.value, 10),
           headless: igHeadlessToggle.checked
         })

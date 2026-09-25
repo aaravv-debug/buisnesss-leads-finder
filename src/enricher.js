@@ -103,25 +103,166 @@ async function fetchPageHtml(url) {
 }
 
 /**
- * Extract emails and social links from website
+ * Analyzes a business website to detect whether it is modern or outdated / needs redesign.
+ * Evaluates: SSL security, mobile viewport responsiveness, copyright freshness,
+ * legacy code (Flash, old jQuery 1.x, table layouts), online booking presence, and speed.
+ */
+function analyzeWebsite(html, url, responseTimeMs = 500) {
+  if (!html) {
+    return {
+      status: 'unreachable',
+      isOutdated: true,
+      score: 25,
+      issues: ['Website is unreachable or server timed out'],
+      summary: 'Website server offline / unreachable',
+      recommendedPitch: 'redesign'
+    };
+  }
+
+  const issues = [];
+  let score = 100;
+  const $ = cheerio.load(html);
+  const lowerHtml = html.toLowerCase();
+  const currentYear = new Date().getFullYear();
+
+  // 1. SSL / HTTPS Security
+  const isHttps = url.toLowerCase().startsWith('https://');
+  if (!isHttps) {
+    issues.push('Missing SSL Certificate (Browsers warn visitors: "Not Secure")');
+    score -= 25;
+  }
+
+  // 2. Mobile Viewport Meta Tag (Responsive Design)
+  const hasViewport = $('meta[name="viewport"]').length > 0;
+  if (!hasViewport) {
+    issues.push('Not mobile-responsive (Missing viewport tag - looks broken or zoomed out on phones)');
+    score -= 30;
+  }
+
+  // 3. Stale Copyright Year in Footer
+  const copyrightMatch = html.match(/(?:©|&copy;|copyright|\(c\))\s*(?:20\d\d\s*[-–/]\s*)?(200\d|201\d|202[0-3])\b/i);
+  let copyrightYear = null;
+  if (copyrightMatch && copyrightMatch[1]) {
+    copyrightYear = parseInt(copyrightMatch[1], 10);
+    if (copyrightYear <= 2022) {
+      const yearsAgo = currentYear - copyrightYear;
+      issues.push(`Outdated copyright year (${copyrightYear} - not refreshed in ${yearsAgo}+ years)`);
+      score -= 25;
+    }
+  }
+
+  // 4. Obsolete Legacy Code (Flash, jQuery 1.x, Table Layouts)
+  const hasOldJQuery = lowerHtml.includes('jquery-1.') || lowerHtml.includes('jquery/1.') || lowerHtml.includes('jquery.min.js?ver=1');
+  const hasFlash = lowerHtml.includes('.swf') || lowerHtml.includes('shockwave-flash');
+  const hasLayoutTables = $('table[cellpadding], table[cellspacing], table[width="100%"]').length >= 2;
+
+  if (hasOldJQuery) {
+    issues.push('Built with obsolete jQuery 1.x script (vulnerable and slow)');
+    score -= 15;
+  }
+  if (hasFlash) {
+    issues.push('Contains obsolete Adobe Flash elements (blocked by modern browsers)');
+    score -= 35;
+  }
+  if (hasLayoutTables) {
+    issues.push('Uses 2000s-era HTML table layouts instead of modern flex/grid');
+    score -= 20;
+  }
+
+  // 5. OpenGraph Social Card Preview
+  const hasOg = $('meta[property^="og:"]').length > 0;
+  if (!hasOg) {
+    issues.push('Missing OpenGraph social cards (no image preview when shared on WhatsApp or iMessage)');
+    score -= 10;
+  }
+
+  // 6. Direct Online Booking Widget
+  const bookingKeywords = [
+    'calendly', 'acuity', 'vagaro', 'mindbody', 'booksy', 'square',
+    'schedul', 'book online', 'book-now', 'booknow', 'setmore',
+    'fresha', 'janeapp', 'appointment'
+  ];
+  const hasBooking = bookingKeywords.some(kw => lowerHtml.includes(kw));
+  if (!hasBooking) {
+    issues.push('No direct 1-click mobile appointment or booking widget for new clients');
+    score -= 15;
+  }
+
+  // 7. Slow Server Load Time
+  if (responseTimeMs > 2500) {
+    issues.push(`Slow server load time (${(responseTimeMs / 1000).toFixed(1)}s delay)`);
+    score -= 15;
+  }
+
+  score = Math.max(15, Math.min(100, score));
+
+  // Determine if website is outdated / prime redesign candidate:
+  const isOutdated = score < 75 || !hasViewport || !isHttps || (copyrightYear && copyrightYear <= 2022) || issues.length >= 2;
+
+  return {
+    status: isOutdated ? 'outdated' : 'modern',
+    isOutdated,
+    score,
+    copyrightYear,
+    hasViewport,
+    isHttps,
+    hasBooking,
+    issues,
+    summary: issues.length > 0 ? issues[0] : 'Modern & responsive',
+    recommendedPitch: isOutdated ? 'redesign' : 'general'
+  };
+}
+
+/**
+ * Extract emails, social links, and website audit from website
  */
 async function enrichWebsite(websiteUrl) {
   if (!websiteUrl) {
-    return { emails: [], socials: {} };
+    return {
+      emails: [],
+      socials: {},
+      audit: {
+        status: 'no_website',
+        isOutdated: false,
+        score: 0,
+        issues: ['No website found'],
+        summary: 'No website online',
+        recommendedPitch: 'new_website'
+      }
+    };
   }
 
   const result = {
     emails: new Set(),
-    socials: {}
+    socials: {},
+    audit: null
   };
 
+  const startTime = Date.now();
   const pageData = await fetchPageHtml(websiteUrl);
+  const responseTimeMs = Date.now() - startTime;
+
   if (!pageData || !pageData.html) {
-    return { emails: [], socials: {} };
+    result.audit = {
+      status: 'unreachable',
+      isOutdated: true,
+      score: 25,
+      issues: ['Website server is down or unreachable'],
+      summary: 'Website server offline / unreachable',
+      recommendedPitch: 'redesign'
+    };
+    return {
+      emails: [],
+      socials: {},
+      audit: result.audit
+    };
   }
 
   const { html, finalUrl } = pageData;
   const $ = cheerio.load(html);
+
+  // Perform Website Modernization Audit
+  result.audit = analyzeWebsite(html, finalUrl || websiteUrl, responseTimeMs);
 
   // 1. Check mailto: links
   $('a[href^="mailto:"]').each((_, el) => {
@@ -178,7 +319,8 @@ async function enrichWebsite(websiteUrl) {
 
   return {
     emails: Array.from(result.emails),
-    socials: result.socials
+    socials: result.socials,
+    audit: result.audit
   };
 }
 
@@ -322,6 +464,9 @@ async function enrichLeadComprehensively(lead, location = '') {
       if (webData.socials) {
         lead.socials = { ...lead.socials, ...webData.socials };
       }
+      if (webData.audit) {
+        lead.websiteAudit = webData.audit;
+      }
     } catch (_) {}
   }
 
@@ -332,11 +477,39 @@ async function enrichLeadComprehensively(lead, location = '') {
       if (!lead.socials.instagram && searchData.instagram) lead.socials.instagram = searchData.instagram;
       if (!lead.socials.facebook && searchData.facebook) lead.socials.facebook = searchData.facebook;
       if (!lead.socials.linkedin && searchData.linkedin) lead.socials.linkedin = searchData.linkedin;
-      if (!lead.website && searchData.website) lead.website = searchData.website;
+      if (!lead.website && searchData.website) {
+        lead.website = searchData.website;
+        // Audit the newly found website
+        try {
+          const webData = await enrichWebsite(lead.website);
+          if (webData.audit) lead.websiteAudit = webData.audit;
+        } catch (_) {}
+      }
       if (searchData.emails && searchData.emails.length > 0) {
         lead.emails = Array.from(new Set([...lead.emails, ...searchData.emails]));
       }
     } catch (_) {}
+  }
+
+  // Fallback audit object if lead has no website
+  if (!lead.website) {
+    lead.websiteAudit = {
+      status: 'no_website',
+      isOutdated: false,
+      score: 0,
+      issues: ['No website found online'],
+      summary: 'No website',
+      recommendedPitch: 'new_website'
+    };
+  } else if (!lead.websiteAudit) {
+    lead.websiteAudit = {
+      status: 'modern',
+      isOutdated: false,
+      score: 85,
+      issues: [],
+      summary: 'Website active',
+      recommendedPitch: 'general'
+    };
   }
 
   // 3. Construct 1-click outreach channels
@@ -353,6 +526,7 @@ async function enrichLeadComprehensively(lead, location = '') {
 
 module.exports = {
   enrichWebsite,
+  analyzeWebsite,
   searchWebForSocialsAndEmail,
   formatWhatsAppUrl,
   enrichLeadComprehensively,
