@@ -22,13 +22,13 @@ const ROTATING_TARGETS = [
 ];
 
 const DEFAULT_CONFIG = {
-  enabled: false, // will activate once credentials verify
+  enabled: true,
   intervalMinutes: 60,
   maxLeadsPerRun: 30,
   targetAudience: 'all', // smart adaptive: Pitch 1 for no-web, Pitch 2 for redesign
   senderName: 'Aaravsinh Rathod | Web Developer',
   emailUser: 'editcraftstudio19@gmail.com',
-  emailPass: 'Ramram@1872', // User provided password
+  emailPass: 'ucppijkvcgmbohai',
   provider: 'gmail',
   host: 'smtp.gmail.com',
   port: 587
