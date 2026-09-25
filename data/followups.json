@@ -1,5 +1,361 @@
 [
   {
+    "id": "cl_1790344415752_57",
+    "name": "New Skin NYC",
+    "email": "newskinnyc@gmail.com",
+    "category": "Skin care clinic",
+    "city": "New York, NY",
+    "website": "https://www.newskinnyc.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "❌ Bounced (Invalid Address)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi New Skin NYC team! Just following up on my quick note from Thursday regarding the 45-second video preview for New Skin NYC's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "badge": "❌ Bounced"
+  },
+  {
+    "id": "cl_1790344415745_218",
+    "name": "LaserBodyNYC",
+    "email": "laserbodynyc@gmail.com",
+    "category": "Laser hair removal service",
+    "city": "New York, NY",
+    "website": "https://laserbodynyc.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "❌ Bounced (Invalid Address)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi LaserBodyNYC team! Just following up on my quick note from Thursday regarding the 45-second video preview for LaserBodyNYC's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
+  },
+  {
+    "id": "cl_1790344415743_692",
+    "name": "Petals Laser Lounge",
+    "email": "appts@petalslaserlounge.com",
+    "category": "Medical spa",
+    "city": "New York, NY",
+    "website": "https://www.petalslaserlounge.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "❌ Bounced (Invalid Address)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Petals Laser Lounge team! Just following up on my quick note from Thursday regarding the 45-second video preview for Petals Laser Lounge's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
+  },
+  {
+    "id": "cl_1790344415741_861",
+    "name": "Downtown City Spa",
+    "email": "downtownskincare@yahoo.com",
+    "category": "Medical spa",
+    "city": "New York, NY",
+    "website": "http://downtowncityspa.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "❌ Bounced (Invalid Address)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Downtown City Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Downtown City Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
+  },
+  {
+    "id": "cl_1790344415739_982",
+    "name": "La Réserve Aesthetics",
+    "email": "info@lareservenycity.com",
+    "category": "Medical spa",
+    "city": "New York, NY",
+    "website": "https://www.lareservenycity.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "❌ Bounced (Invalid Address)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi La Réserve Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for La Réserve Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
+  },
+  {
+    "id": "cl_1790344415737_954",
+    "name": "Saged NYC Beauty & Wellness",
+    "email": "sagednyc@gmail.com",
+    "category": "Medical spa",
+    "city": "New York, NY",
+    "website": "https://sagednycwellness.zoca.com/?utm_source=googlemaps&utm_medium=googlemapsprofile&utm_campaign=website_link",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "❌ Bounced (Invalid Address)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Saged NYC Beauty & Wellness team! Just following up on my quick note from Thursday regarding the 45-second video preview for Saged NYC Beauty & Wellness's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
+  },
+  {
+    "id": "cl_1790344415735_728",
+    "name": "Zeta Aesthetics NYC",
+    "email": "elizeta.nyc@gmail.com",
+    "category": "Wellness center",
+    "city": "New York, NY",
+    "website": "http://zetaaestheticsnyc.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "❌ Bounced (Invalid Address)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Zeta Aesthetics NYC team! Just following up on my quick note from Thursday regarding the 45-second video preview for Zeta Aesthetics NYC's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
+  },
+  {
+    "id": "cl_1790344415733_207",
+    "name": "Beam Laser Spa",
+    "email": "info@beamlaserspa.com",
+    "category": "Laser hair removal service",
+    "city": "New York, NY",
+    "website": "https://www.beamlaserspa.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "❌ Bounced (Invalid Address)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Beam Laser Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Beam Laser Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
+  },
+  {
+    "id": "cl_1790344415730_14",
+    "name": "Lavenvelle Spa",
+    "email": "lavenvellespa@gmail.com",
+    "category": "Laser hair removal service",
+    "city": "New York, NY",
+    "website": "http://www.lavenvellespa.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Lavenvelle Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Lavenvelle Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415728_853",
+    "name": "Ascend Wellness & Medical Spa",
+    "email": "info@ascendspa.com",
+    "category": "Laser hair removal service",
+    "city": "New York, NY",
+    "website": "http://www.ascendspa.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Ascend Wellness & Medical Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Ascend Wellness & Medical Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415725_4",
+    "name": "ZZ Med Spa",
+    "email": "booking@zzmedspa.com",
+    "category": "Medical spa",
+    "city": "New York, NY",
+    "website": "https://www.zzmedspa.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "❌ Bounced (Invalid Address)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi ZZ Med Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for ZZ Med Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
+  },
+  {
+    "id": "cl_1790344415722_694",
+    "name": "Koru Wellness Aesthetics",
+    "email": "hello@korunyc.com",
+    "category": "Medical spa",
+    "city": "New York, NY",
+    "website": "https://korunyc.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Koru Wellness Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for Koru Wellness Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415719_357",
+    "name": "Le DAJE Wellness Studio",
+    "email": "info@glowlabspa.com",
+    "category": "Laser hair removal service",
+    "city": "New York, NY",
+    "website": "https://glowlabspa.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Le DAJE Wellness Studio team! Just following up on my quick note from Thursday regarding the 45-second video preview for Le DAJE Wellness Studio's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415716_858",
+    "name": "Skinova Medspa",
+    "email": "contact@skinovamedspa.com",
+    "category": "Medical spa",
+    "city": "New York, NY",
+    "website": "http://www.skinovamedspa.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Skinova Medspa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Skinova Medspa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415713_393",
+    "name": "Serene Max Laser Spa",
+    "email": "info@serenemax.com",
+    "category": "Spa",
+    "city": "New York, NY",
+    "website": "http://www.serenemax.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Serene Max Laser Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Serene Max Laser Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415710_925",
+    "name": "Wellness Med Art",
+    "email": "info@wellnessmedart.com",
+    "category": "Medical spa",
+    "city": "New York, NY",
+    "website": "https://www.wellnessmedart.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Wellness Med Art team! Just following up on my quick note from Thursday regarding the 45-second video preview for Wellness Med Art's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415707_30",
+    "name": "Aesthetic Studio - \"Love You Laser\" Spa",
+    "email": "info@loveyoulaser.com",
+    "category": "Laser hair removal service",
+    "city": "New York, NY",
+    "website": "https://www.love-you-laser.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Aesthetic Studio - \"Love You Laser\" Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Aesthetic Studio - \"Love You Laser\" Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415704_33",
+    "name": "Infinity Laser Spa",
+    "email": "marketing@infinitylaserspa.com",
+    "category": "Laser hair removal service",
+    "city": "New York, NY",
+    "website": "https://infinitylaserspa.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Infinity Laser Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Infinity Laser Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415700_178",
+    "name": "Laser Bar & Spa",
+    "email": "info@laserbarandspa.com",
+    "category": "Laser hair removal service",
+    "city": "New York, NY",
+    "website": "https://www.laserbarandspa.com/?utm_source=gmb_auth",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Laser Bar & Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Laser Bar & Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415696_397",
+    "name": "BeRejuved Medical Spa & Wellness Studio - NYC",
+    "email": "berejuved@gmail.com",
+    "category": "Medical spa",
+    "city": "New York, NY",
+    "website": "https://berejuvednyc.zoca.com/?utm_source=googlemaps&utm_medium=googlemaps&utm_campaign=googlemaps",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi BeRejuved Medical Spa & Wellness Studio - NYC team! Just following up on my quick note from Thursday regarding the 45-second video preview for BeRejuved Medical Spa & Wellness Studio - NYC's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
+    "id": "cl_1790344415690_397",
+    "name": "Ease Spa Wellness",
+    "email": "info@easeacupuncture.com",
+    "category": "Laser hair removal service",
+    "city": "New York, NY",
+    "website": "http://www.easespawellness.com/",
+    "dateMessaged": "2026-09-25",
+    "followupDue": "2026-09-27",
+    "followupDays": 2,
+    "status": "Pending (Due in 2 Days)",
+    "initialPitch": "45-second video permission pitch sent",
+    "followupPitch": "Hi Ease Spa Wellness team! Just following up on my quick note from Thursday regarding the 45-second video preview for Ease Spa Wellness's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
+    "notes": "Outreach delivered on 2026-09-25. Automatic 2-day follow-up tracker active.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
+  },
+  {
     "id": "cl_1",
     "name": "LUX MedSpa Brickell",
     "email": "info@luxmedspabrickell.com",
@@ -11,7 +367,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi LUX MedSpa Brickell team! Just following up on my quick note from Thursday regarding the 45-second video preview for LUX MedSpa Brickell's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_2",
@@ -25,7 +383,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Med Aesthetics Miami team! Just following up on my quick note from Thursday regarding the 45-second video preview for Med Aesthetics Miami's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_3",
@@ -39,7 +399,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Monaco MedSpa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Monaco MedSpa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_4",
@@ -53,7 +415,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Miami Skin Spa Aesthetics & Wellness team! Just following up on my quick note from Thursday regarding the 45-second video preview for Miami Skin Spa Aesthetics & Wellness's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_5",
@@ -67,7 +431,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi VIIV WELLNESS HAUS team! Just following up on my quick note from Thursday regarding the 45-second video preview for VIIV WELLNESS HAUS's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_6",
@@ -78,10 +444,12 @@
     "dateMessaged": "2026-09-25",
     "followupDue": "2026-09-27",
     "followupDays": 2,
-    "status": "Pending (Due in 2 Days)",
+    "status": "❌ Bounced (Invalid Address)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Solea Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Solea Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
   },
   {
     "id": "cl_7",
@@ -95,7 +463,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Infinity Beauty Lab Med Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Infinity Beauty Lab Med Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_8",
@@ -109,7 +479,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi MDW Aesthetics Miami team! Just following up on my quick note from Thursday regarding the 45-second video preview for MDW Aesthetics Miami's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_9",
@@ -123,7 +495,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Zeugma MedSpa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Zeugma MedSpa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_10",
@@ -134,10 +508,12 @@
     "dateMessaged": "2026-09-25",
     "followupDue": "2026-09-27",
     "followupDays": 2,
-    "status": "Pending (Due in 2 Days)",
+    "status": "❌ Bounced (Invalid Address)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Magical Med Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Magical Med Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
   },
   {
     "id": "cl_11",
@@ -151,7 +527,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Get Refreshed team! Just following up on my quick note from Thursday regarding the 45-second video preview for Get Refreshed's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_12",
@@ -165,7 +543,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Dermanova MedSpa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Dermanova MedSpa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_13",
@@ -176,10 +556,12 @@
     "dateMessaged": "2026-09-25",
     "followupDue": "2026-09-27",
     "followupDays": 2,
-    "status": "Pending (Due in 2 Days)",
+    "status": "❌ Bounced (Invalid Address)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Din Style Med Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Din Style Med Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
   },
   {
     "id": "cl_14",
@@ -193,7 +575,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Secret Hands Med Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Secret Hands Med Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_15",
@@ -207,7 +591,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi NuYou Medical Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for NuYou Medical Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_16",
@@ -221,7 +607,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Ava Day Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Ava Day Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_17",
@@ -235,7 +623,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Touch Laser Medical Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Touch Laser Medical Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_18",
@@ -249,7 +639,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Meraki Med Miami team! Just following up on my quick note from Thursday regarding the 45-second video preview for Meraki Med Miami's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_19",
@@ -263,7 +655,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Dermal Era Holistic Med Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Dermal Era Holistic Med Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_20",
@@ -277,7 +671,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Pure Beauty Laser Med Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Pure Beauty Laser Med Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_21",
@@ -291,7 +687,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Austin Cosmetic Dentistry by Tejas Patel, DDS team! Just following up on my quick note from Thursday regarding the 45-second video preview for Austin Cosmetic Dentistry by Tejas Patel, DDS's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_22",
@@ -305,7 +703,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Austin Artistic Dental team! Just following up on my quick note from Thursday regarding the 45-second video preview for Austin Artistic Dental's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_23",
@@ -319,7 +719,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Toothbar team! Just following up on my quick note from Thursday regarding the 45-second video preview for Toothbar's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_24",
@@ -333,7 +735,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Enamel Dentistry South Lamar team! Just following up on my quick note from Thursday regarding the 45-second video preview for Enamel Dentistry South Lamar's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_25",
@@ -347,7 +751,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Barton Oaks Dental Group team! Just following up on my quick note from Thursday regarding the 45-second video preview for Barton Oaks Dental Group's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_26",
@@ -361,7 +767,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Austin City Dental team! Just following up on my quick note from Thursday regarding the 45-second video preview for Austin City Dental's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_27",
@@ -375,7 +783,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Austin Elite Smiles | Cosmetic & General Dentistry team! Just following up on my quick note from Thursday regarding the 45-second video preview for Austin Elite Smiles | Cosmetic & General Dentistry's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_28",
@@ -389,7 +799,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Smile Creations team! Just following up on my quick note from Thursday regarding the 45-second video preview for Smile Creations's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_29",
@@ -403,7 +815,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Sola Smile Co. team! Just following up on my quick note from Thursday regarding the 45-second video preview for Sola Smile Co.'s website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_30",
@@ -417,7 +831,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Austin Dental Works team! Just following up on my quick note from Thursday regarding the 45-second video preview for Austin Dental Works's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_31",
@@ -428,10 +844,12 @@
     "dateMessaged": "2026-09-25",
     "followupDue": "2026-09-27",
     "followupDays": 2,
-    "status": "Pending (Due in 2 Days)",
+    "status": "❌ Bounced (Invalid Address)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Elite Dentistry Cosmetic & Implant Center of ATX team! Just following up on my quick note from Thursday regarding the 45-second video preview for Elite Dentistry Cosmetic & Implant Center of ATX's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
   },
   {
     "id": "cl_32",
@@ -445,7 +863,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Blunn Creek Family Dentistry team! Just following up on my quick note from Thursday regarding the 45-second video preview for Blunn Creek Family Dentistry's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_33",
@@ -459,7 +879,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Sunset Hills Dentistry team! Just following up on my quick note from Thursday regarding the 45-second video preview for Sunset Hills Dentistry's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_34",
@@ -473,7 +895,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Hedgecock Dental team! Just following up on my quick note from Thursday regarding the 45-second video preview for Hedgecock Dental's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_35",
@@ -487,7 +911,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Austin Cosmetic and Implant Dentistry team! Just following up on my quick note from Thursday regarding the 45-second video preview for Austin Cosmetic and Implant Dentistry's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_36",
@@ -501,7 +927,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Shoal Creek Dental Care team! Just following up on my quick note from Thursday regarding the 45-second video preview for Shoal Creek Dental Care's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_37",
@@ -515,7 +943,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Kian Aesthetic Institute team! Just following up on my quick note from Thursday regarding the 45-second video preview for Kian Aesthetic Institute's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_38",
@@ -529,7 +959,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi West Empire Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for West Empire Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_39",
@@ -543,7 +975,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Double J Medical Aesthetics and Hair Clinic team! Just following up on my quick note from Thursday regarding the 45-second video preview for Double J Medical Aesthetics and Hair Clinic's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_40",
@@ -557,7 +991,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi My Aesthetic Doctor team! Just following up on my quick note from Thursday regarding the 45-second video preview for My Aesthetic Doctor's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_41",
@@ -571,7 +1007,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Harmony Aesthetics Center team! Just following up on my quick note from Thursday regarding the 45-second video preview for Harmony Aesthetics Center's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_42",
@@ -585,7 +1023,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Beverly Hills Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for Beverly Hills Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_43",
@@ -599,7 +1039,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Spa Medica Aesthetic team! Just following up on my quick note from Thursday regarding the 45-second video preview for Spa Medica Aesthetic's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_44",
@@ -613,7 +1055,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi JASI Skin + Wellness Med Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for JASI Skin + Wellness Med Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_45",
@@ -627,7 +1071,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Glow Aesthetic Center Med Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Glow Aesthetic Center Med Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_46",
@@ -641,7 +1087,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi IVE MEDICAL SPA team! Just following up on my quick note from Thursday regarding the 45-second video preview for IVE MEDICAL SPA's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_47",
@@ -655,7 +1103,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Happy Hands Aesthetics & Laser Skin Tightening team! Just following up on my quick note from Thursday regarding the 45-second video preview for Happy Hands Aesthetics & Laser Skin Tightening's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_48",
@@ -669,7 +1119,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Dermaster Medical Aesthetic Clinic team! Just following up on my quick note from Thursday regarding the 45-second video preview for Dermaster Medical Aesthetic Clinic's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_49",
@@ -683,7 +1135,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Total Body Aesthetic team! Just following up on my quick note from Thursday regarding the 45-second video preview for Total Body Aesthetic's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_50",
@@ -697,7 +1151,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi me.losangeles aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for me.losangeles aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_51",
@@ -711,7 +1167,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Deluxe Cosmetic Center team! Just following up on my quick note from Thursday regarding the 45-second video preview for Deluxe Cosmetic Center's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_52",
@@ -725,7 +1183,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi MedBeautyLA team! Just following up on my quick note from Thursday regarding the 45-second video preview for MedBeautyLA's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_53",
@@ -739,7 +1199,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Beverly Wilshire Aesthetics Beverly Hills Medical Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Beverly Wilshire Aesthetics Beverly Hills Medical Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_54",
@@ -750,10 +1212,12 @@
     "dateMessaged": "2026-09-25",
     "followupDue": "2026-09-27",
     "followupDays": 2,
-    "status": "Pending (Due in 2 Days)",
+    "status": "❌ Bounced (Invalid Address)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Alchemy 43 Los Angeles team! Just following up on my quick note from Thursday regarding the 45-second video preview for Alchemy 43 Los Angeles's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
   },
   {
     "id": "cl_55",
@@ -767,7 +1231,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi The Sunset Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for The Sunset Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_56",
@@ -781,7 +1247,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi SkinTight Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for SkinTight Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_57",
@@ -795,7 +1263,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Skin Perfect Medical Aesthetics - West Hollywood team! Just following up on my quick note from Thursday regarding the 45-second video preview for Skin Perfect Medical Aesthetics - West Hollywood's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_58",
@@ -809,7 +1279,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Aura Aesthetics LA team! Just following up on my quick note from Thursday regarding the 45-second video preview for Aura Aesthetics LA's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_59",
@@ -823,7 +1295,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Re:Lune - Medical Aesthetics and Wellness team! Just following up on my quick note from Thursday regarding the 45-second video preview for Re:Lune - Medical Aesthetics and Wellness's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_60",
@@ -837,7 +1311,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Tulip Advanced Aesthetic & Medical team! Just following up on my quick note from Thursday regarding the 45-second video preview for Tulip Advanced Aesthetic & Medical's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_61",
@@ -851,7 +1327,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Skinsation LA team! Just following up on my quick note from Thursday regarding the 45-second video preview for Skinsation LA's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_62",
@@ -865,7 +1343,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Aère Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for Aère Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_63",
@@ -879,7 +1359,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Halo Aesthetics Bar team! Just following up on my quick note from Thursday regarding the 45-second video preview for Halo Aesthetics Bar's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_64",
@@ -893,7 +1375,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi My Botox LA team! Just following up on my quick note from Thursday regarding the 45-second video preview for My Botox LA's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_65",
@@ -907,7 +1391,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Ola Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for Ola Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_66",
@@ -921,7 +1407,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi AVE Aesthetics Medical Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for AVE Aesthetics Medical Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_67",
@@ -935,7 +1423,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Volumé team! Just following up on my quick note from Thursday regarding the 45-second video preview for Volumé's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_68",
@@ -949,7 +1439,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi WooYoo Medical Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for WooYoo Medical Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_69",
@@ -963,7 +1455,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi R&J Medspa team! Just following up on my quick note from Thursday regarding the 45-second video preview for R&J Medspa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_70",
@@ -974,10 +1468,12 @@
     "dateMessaged": "2026-09-25",
     "followupDue": "2026-09-27",
     "followupDays": 2,
-    "status": "Pending (Due in 2 Days)",
+    "status": "❌ Bounced (Invalid Address)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi JK aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for JK aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
   },
   {
     "id": "cl_71",
@@ -988,10 +1484,12 @@
     "dateMessaged": "2026-09-25",
     "followupDue": "2026-09-27",
     "followupDays": 2,
-    "status": "Pending (Due in 2 Days)",
+    "status": "❌ Bounced (Invalid Address)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Eugenia Berchenko RN @ Face Place Medical Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for Eugenia Berchenko RN @ Face Place Medical Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
   },
   {
     "id": "cl_72",
@@ -1005,7 +1503,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi EL aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for EL aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_73",
@@ -1016,10 +1516,12 @@
     "dateMessaged": "2026-09-25",
     "followupDue": "2026-09-27",
     "followupDays": 2,
-    "status": "Pending (Due in 2 Days)",
+    "status": "❌ Bounced (Invalid Address)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Los Angeles Center for Cosmetic Surgery team! Just following up on my quick note from Thursday regarding the 45-second video preview for Los Angeles Center for Cosmetic Surgery's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
   },
   {
     "id": "cl_74",
@@ -1033,7 +1535,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi PrimaVera Medical Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for PrimaVera Medical Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_75",
@@ -1047,7 +1551,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi LA Ageless Medical Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for LA Ageless Medical Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_76",
@@ -1061,7 +1567,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Skin Select team! Just following up on my quick note from Thursday regarding the 45-second video preview for Skin Select's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_77",
@@ -1075,7 +1583,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi mimo aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for mimo aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_78",
@@ -1089,7 +1599,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Beverly Hills Aesthetic Medics team! Just following up on my quick note from Thursday regarding the 45-second video preview for Beverly Hills Aesthetic Medics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_79",
@@ -1103,7 +1615,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Medworks Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for Medworks Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_80",
@@ -1117,7 +1631,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Bliss Point Medical Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Bliss Point Medical Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_81",
@@ -1131,7 +1647,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi ISA Wellness & Aesthetic Boutique team! Just following up on my quick note from Thursday regarding the 45-second video preview for ISA Wellness & Aesthetic Boutique's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_82",
@@ -1145,7 +1663,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Bright Medical Spa team! Just following up on my quick note from Thursday regarding the 45-second video preview for Bright Medical Spa's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_83",
@@ -1156,10 +1676,12 @@
     "dateMessaged": "2026-09-25",
     "followupDue": "2026-09-27",
     "followupDays": 2,
-    "status": "Pending (Due in 2 Days)",
+    "status": "❌ Bounced (Invalid Address)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Elite Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for Elite Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Email bounced back by recipient mail server. Excluded from follow-ups.",
+    "daysRemaining": 2,
+    "badge": "❌ Bounced"
   },
   {
     "id": "cl_84",
@@ -1173,7 +1695,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Face Place team! Just following up on my quick note from Thursday regarding the 45-second video preview for Face Place's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_85",
@@ -1187,7 +1711,9 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi Ozraya Beverly Hills Aesthetics team! Just following up on my quick note from Thursday regarding the 45-second video preview for Ozraya Beverly Hills Aesthetics's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   },
   {
     "id": "cl_86",
@@ -1201,6 +1727,8 @@
     "status": "Pending (Due in 2 Days)",
     "initialPitch": "45-second video permission pitch sent",
     "followupPitch": "Hi TMRW Aesthetics For Men team! Just following up on my quick note from Thursday regarding the 45-second video preview for TMRW Aesthetics For Men's website & booking page. Would you still like me to send that 45-second demo over? Best, Aaravsinh (https://aaravsinh-rathod-portfolio-9.vercel.app/)",
-    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep."
+    "notes": "Outreach delivered on 25 Sep. Follow-up scheduled for 27 Sep.",
+    "daysRemaining": 2,
+    "badge": "⏳ Due in 2 Days"
   }
 ]

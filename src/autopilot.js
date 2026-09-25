@@ -1,3 +1,60 @@
+
+// Anti-Spam Dynamic Content Generator (prevents "Message Blocked" by randomizing phrasing)
+function generateDynamicPitch(lead, isRedesign = false) {
+  const name = lead.name || 'there';
+  const city = lead.city || 'your area';
+  const category = lead.category || 'local business';
+  const website = lead.website || '';
+
+  const subjectsNoWeb = [
+    `Quick question regarding ${name}'s online booking`,
+    `Question for ${name} team`,
+    `Idea for ${name}'s mobile booking`,
+    `Quick note regarding ${name}`
+  ];
+
+  const subjectsRedesign = [
+    `Quick thoughts on modernizing ${name}'s website`,
+    `Mobile booking idea for ${name}`,
+    `${name} website & appointments idea`,
+    `Thoughts on ${name}'s current website`
+  ];
+
+  const greetings = [
+    `Hi ${name} team! 👋`,
+    `Hello to the team at ${name},`,
+    `Hi there ${name} team,`,
+    `Hope you're having a productive week ${name} team!`
+  ];
+
+  const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+  const subject = isRedesign 
+    ? subjectsRedesign[Math.floor(Math.random() * subjectsRedesign.length)]
+    : subjectsNoWeb[Math.floor(Math.random() * subjectsNoWeb.length)];
+
+  let body = '';
+  if (isRedesign) {
+    const intros = [
+      `I was researching top ${category} practices in ${city} and was taking a look at your current website (${website}).`,
+      `I came across ${name} while looking at leading ${category} businesses in ${city} and checked out your website (${website}).`,
+      `I was looking at ${category} providers in ${city} and noticed your site at ${website}.`
+    ];
+    const randIntro = intros[Math.floor(Math.random() * intros.length)];
+
+    body = `${randomGreeting}\n\n${randIntro}\n\nI noticed a few areas where streamlining the layout and adding a direct mobile-friendly booking system could easily bring in 5-10 extra appointments every week.\n\nI specialize in fast, high-converting booking websites for ${category} practices. You can review my recent client projects here:\n👉 https://aaravsinh-rathod-portfolio-9.vercel.app/\n\nMay I send a 45-second video showing how your website will look for ${name}? No pressure at all, just thought it might give you some great ideas!\n\nBest regards,\nAaravsinh Rathod\nWeb Developer & Designer\nhttps://aaravsinh-rathod-portfolio-9.vercel.app/\n\n(PS: If you'd rather not receive any ideas, please reply "opt out" and I won't reach out again!)`;
+  } else {
+    const intros = [
+      `I was looking at top ${category} businesses in ${city} and noticed your Google profile currently doesn't have an active website or direct mobile booking link for clients.`,
+      `I came across ${name} in ${city} and noticed your profile is missing a direct online booking website.`
+    ];
+    const randIntro = intros[Math.floor(Math.random() * intros.length)];
+
+    body = `${randomGreeting}\n\n${randIntro}\n\nI build clean, modern, and fast booking websites that help ${category} businesses bring in 5-10 extra appointments every week. You can see my recent client work and portfolio here:\n👉 https://aaravsinh-rathod-portfolio-9.vercel.app/\n\nMay I send a 45-second video showing how your website will look for ${name}? No pressure at all, just thought it might be helpful!\n\nBest regards,\nAaravsinh Rathod\nWeb Developer & Designer\nhttps://aaravsinh-rathod-portfolio-9.vercel.app/\n\n(PS: If you'd rather not receive any ideas, please reply "opt out" and I won't reach out again!)`;
+  }
+
+  return { subject, body };
+}
+
 const dns = require('dns');
 try { dns.setDefaultResultOrder('ipv4first'); } catch (_) {}
 const followups = require('./followups');
@@ -191,10 +248,20 @@ class AutopilotManager {
 
       // 3. Filter Leads
       const eligibleLeads = [];
+      // Load suppression list
+      let suppressionSet = new Set();
+      try {
+        const suppFile = path.join(__dirname, '..', 'data', 'suppression-list.json');
+        if (fs.existsSync(suppFile)) {
+          suppressionSet = new Set(JSON.parse(fs.readFileSync(suppFile, 'utf8')).map(e => e.toLowerCase()));
+        }
+      } catch (_) {}
+
       for (const lead of scrapedLeads) {
         if (!lead.emails || lead.emails.length === 0) continue;
         const primaryEmail = lead.emails[0].toLowerCase();
-        if (this.sentEmailsSet.has(primaryEmail)) continue; // avoid re-emailing
+        if (this.sentEmailsSet.has(primaryEmail)) continue;
+        if (suppressionSet.has(primaryEmail)) continue; // skip known bounced emails // avoid re-emailing
         eligibleLeads.push(lead);
         if (eligibleLeads.length >= this.state.maxLeadsPerRun) break;
       }
@@ -247,7 +314,7 @@ class AutopilotManager {
         bodyTemplate: emailBodyNoWeb,
         subjectTemplateRedesign: emailSubjectRedesign,
         bodyTemplateRedesign: emailBodyRedesign,
-        delaySeconds: 20, // 20s safe delay between emails
+        delaySeconds: 30, // 30s safe delay + human pacing to prevent spam flags // 20s safe delay between emails
         onLog: (m) => this.log(m)
       });
 

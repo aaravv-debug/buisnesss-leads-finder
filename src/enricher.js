@@ -4,14 +4,22 @@ const cheerio = require('cheerio');
 const EMAIL_REGEX = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/gi;
 
 const INVALID_EMAIL_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.css', '.js', '.woff', '.woff2', '.ttf'];
-const JUNK_DOMAINS = ['wixpress.com', 'sentry.io', 'schema.org', 'example.com', 'domain.com', 'email.com', 'yourdomain.com'];
+const JUNK_DOMAINS = [
+  'wixpress.com', 'sentry.io', 'schema.org', 'example.com', 'domain.com', 'email.com', 
+  'yourdomain.com', 'mysite.com', 'godaddy.com', 'cloudflare.com', 'influxmarketing.com', 
+  'dharmamarketing.cloud', 'booksy.com', 'mdw.co.in', 'wordpress.org', 'gravatar.com'
+];
+const JUNK_USERNAMES = [
+  'example', 'filler', 'noreply', 'no-reply', 'donotreply', 'webmaster', 
+  'hostmaster', 'postmaster', 'mailer-daemon', 'privacy', 'admin@domain'
+];
 
 /**
  * Filter out invalid or template emails
  */
 function isValidEmail(email) {
   if (!email || email.length > 80) return false;
-  const lower = email.toLowerCase();
+  const lower = email.toLowerCase().trim();
   
   for (const ext of INVALID_EMAIL_EXTENSIONS) {
     if (lower.endsWith(ext)) return false;
@@ -19,7 +27,12 @@ function isValidEmail(email) {
   for (const junk of JUNK_DOMAINS) {
     if (lower.includes(junk)) return false;
   }
+  const user = lower.split('@')[0];
+  for (const junkUser of JUNK_USERNAMES) {
+    if (user === junkUser || user.startsWith(junkUser + '+')) return false;
+  }
   if (lower.startsWith('u00') || lower.includes('bootstrap') || lower.includes('jquery')) return false;
+  if (!lower.includes('.') || lower.indexOf('@') < 1) return false;
 
   return true;
 }
