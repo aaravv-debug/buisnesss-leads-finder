@@ -258,7 +258,7 @@ app.post('/api/autopilot/config', (req, res) => {
 });
 
 // Trigger an immediate Autopilot cycle
-app.post('/api/autopilot/run-now', async (req, res) => {
+app.all('/api/autopilot/run-now', async (req, res) => {
   res.json({ message: 'Autopilot run initiated in background' });
   autopilot.runCycle(true);
 });
