@@ -172,10 +172,11 @@ class AutopilotManager {
       this.log(`✅ Gmail SMTP connection verified and ready!`);
 
       // 2. Scrape Leads
-      const maxToScrape = Math.min(45, (this.state.maxLeadsPerRun || 30) + 15);
+      const targetLeadsNeeded = this.state.maxLeadsPerRun || 70;
+      const maxToScrape = Math.max(targetLeadsNeeded, Math.round(targetLeadsNeeded * 1.4));
       this.log(`Scraping up to ${maxToScrape} fresh leads for: "${target.niche} in ${target.city}"...`);
       const scrapedLeads = await scrapeGoogleMaps({
-        query: `${target.niche} in ${target.city}`,
+        query: `${target.niche.replace(/&/g, 'and')} in ${target.city}`,
         maxResults: maxToScrape,
         enrich: true,
         headless: true,
