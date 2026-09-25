@@ -7,7 +7,7 @@ const { sleep } = require('./utils');
 function createTransporter(config) {
   const { provider = 'gmail', user, pass, host, port, secure } = config;
 
-    if (provider === 'gmail') {
+  if (provider === 'gmail') {
     return nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -23,6 +23,20 @@ function createTransporter(config) {
       greetingTimeout: 15000,
       socketTimeout: 30000
     });
+  }
+
+  // Custom SMTP (Brevo, SendGrid, Outlook, Namecheap, etc.)
+  return nodemailer.createTransport({
+    host: host || 'smtp.gmail.com',
+    port: parseInt(port, 10) || 587,
+    secure: Boolean(secure),
+    auth: {
+      user: user.trim(),
+      pass: pass.trim()
+    },
+    tls: {
+      rejectUnauthorized: false
+    }
   });
 }
 

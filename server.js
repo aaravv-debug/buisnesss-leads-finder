@@ -1,3 +1,4 @@
+const repliesTracker = require('./src/replies-tracker');
 const followups = require('./src/followups');
 const express = require('express');
 const cors = require('cors');
@@ -269,6 +270,33 @@ let activeOutreach = {
 // Autopilot Status & Logs
 
 // ==================== 2-DAY CLIENT FOLLOW-UP PIPELINE API ====================
+
+// ==================== CLIENT REPLIES & HOT LEADS API ====================
+app.get('/api/replies', (req, res) => {
+  const replies = repliesTracker.loadReplies();
+  const unreadCount = replies.filter(r => r.unread).length;
+  res.json({
+    total: replies.length,
+    unreadCount,
+    replies
+  });
+});
+
+app.post('/api/replies/scan', async (req, res) => {
+  try {
+    const result = await repliesTracker.scanInboxForReplies();
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/replies/mark-read', (req, res) => {
+  const { id } = req.body;
+  const updated = repliesTracker.markReplyRead(id);
+  res.json({ success: true, updated });
+});
+
 app.get('/api/followups', (req, res) => {
   const list = followups.loadFollowups();
   const dueCount = list.filter(i => (i.daysRemaining <= 2 || i.status.includes('Due')) && !i.status.startsWith('Followed Up')).length;
