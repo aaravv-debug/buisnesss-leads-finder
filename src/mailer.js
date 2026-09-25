@@ -227,8 +227,15 @@ async function runEmailCampaign(options) {
       results.details.push({ id: lead.id, name: lead.name, email: targetEmail, status: 'failed', error: err.message });
       onLog(`[Email Bot] ❌ Failed to send to ${lead.name}: ${err.message}`);
 
-      // If blocked or rejected, add to suppression list
-      if (err.message.includes('550') || err.message.includes('blocked') || err.message.includes('rejected')) {
+      // If Gmail Daily Sending Limit is exceeded, halt immediately!
+      if (err.message.includes('Daily user sending limit exceeded') || err.message.includes('5.4.5')) {
+        onLog(`[Email Bot] 🛑 Gmail Daily Sending Limit Exceeded (~100-150 emails/day per free account). Halting campaign immediately.`);
+        results.failed += (leads.length - i - 1);
+        break;
+      }
+
+      // If truly an invalid address or dead recipient, add to suppression list
+      if (err.message.includes('NoSuchUser') || err.message.includes('No Such User') || err.message.includes('5.1.1') || err.message.includes('does not exist')) {
         addToSuppressionList(targetEmail);
       }
     }
