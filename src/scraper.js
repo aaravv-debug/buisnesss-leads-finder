@@ -244,7 +244,12 @@ async function scrapeGoogleMaps(options) {
 
     onLog(`Found ${rawItems.length} businesses to extract details for.`);
 
-    // Extract detailed information by clicking each listing or navigating
+    // Extract detailed information by navigating to each listing with proper element waiting
+    const detailPage = await browser.newPage();
+    await detailPage.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+    );
+
     for (let i = 0; i < rawItems.length; i++) {
       const item = rawItems[i];
       if (seenUrls.has(item.url)) continue;
@@ -268,44 +273,22 @@ async function scrapeGoogleMaps(options) {
       };
 
       try {
-        // Find the clickable item in the current feed
-        const clicked = await page.evaluate((targetUrl) => {
-          const a = document.querySelector(`a[href="${targetUrl}"]`);
-          if (a) {
-            a.scrollIntoView({ behavior: 'instant', block: 'center' });
-            a.click();
-            return true;
-          }
-          return false;
-        }, item.url);
+        await detailPage.goto(item.url, { waitUntil: 'domcontentloaded', timeout: 20000 });
+        try {
+          await detailPage.waitForSelector('h1.DUwDvf, [data-item-id="authority"], button[data-item-id*="phone"]', { timeout: 7000 });
+        } catch (_) {}
+        await sleep(1500);
 
-        if (clicked) {
-          await sleep(1500);
-          const detail = await extractDetailFromPage(page);
-          lead = {
-            ...lead,
-            ...detail,
-            name: detail.name || item.name || lead.name,
-            category: detail.category || item.category || lead.category,
-            rating: detail.rating !== null ? detail.rating : lead.rating,
-            reviews: detail.reviews !== null ? detail.reviews : lead.reviews,
-            googleMapsUrl: page.url().includes('/maps/place/') ? page.url() : item.url
-          };
-        } else {
-          // If cannot click in feed, navigate directly
-          await page.goto(item.url, { waitUntil: 'domcontentloaded', timeout: 15000 });
-          await sleep(1200);
-          const detail = await extractDetailFromPage(page);
-          lead = {
-            ...lead,
-            ...detail,
-            name: detail.name || item.name || lead.name,
-            category: detail.category || item.category || lead.category,
-            rating: detail.rating !== null ? detail.rating : lead.rating,
-            reviews: detail.reviews !== null ? detail.reviews : lead.reviews,
-            googleMapsUrl: page.url().includes('/maps/place/') ? page.url() : item.url
-          };
-        }
+        const detail = await extractDetailFromPage(detailPage);
+        lead = {
+          ...lead,
+          ...detail,
+          name: detail.name || item.name || lead.name,
+          category: detail.category || item.category || lead.category,
+          rating: detail.rating !== null ? detail.rating : lead.rating,
+          reviews: detail.reviews !== null ? detail.reviews : lead.reviews,
+          googleMapsUrl: detailPage.url().includes('/maps/place/') ? detailPage.url() : item.url
+        };
       } catch (err) {
         onLog(`Warning: Failed to fetch full details for ${lead.name}: ${err.message}`);
       }
@@ -336,7 +319,12 @@ async function scrapeGoogleMaps(options) {
     onLog(`Scraping error: ${err.message}`);
   } finally {
     try {
-      await browser.close();
+      const pages = await browser.pages().catch(() => []);
+      for (const p of pages) {
+        await p.close().catch(() => {});
+      }
+      await sleep(250);
+      await browser.close().catch(() => {});
     } catch (_) {}
   }
 
@@ -374,11 +362,41 @@ async function extractDetailFromPage(page) {
       address = addressBtn.getAttribute('aria-label')?.replace(/^Address:\s*/i, '').trim() || addressBtn.innerText.trim();
     }
 
-    // 4. Website
+    // 4. Website & Booking Link (Broad modern selector list)
     let website = null;
-    const websiteLink = document.querySelector('a[data-item-id="authority"], a[aria-label*="Website:"]');
-    if (websiteLink) {
-      website = websiteLink.href || websiteLink.getAttribute('href');
+    const websiteSelectors = [
+      'a[data-item-id="authority"]',
+      'a[aria-label*="Website" i]',
+      'a[data-tooltip*="Open website" i]',
+      'a[data-value="Website"]',
+      'a[aria-label*="Open website" i]',
+      'a[data-item-id="action:3"]',
+      'a[data-tooltip*="booking" i]'
+    ];
+
+    for (const sel of websiteSelectors) {
+      const el = document.querySelector(sel);
+      if (el && el.href && !el.href.includes('google.com/maps') && !el.href.startsWith('tel:')) {
+        website = el.href;
+        break;
+      }
+    }
+
+    // Fallback: search external anchors inside main pane
+    if (!website) {
+      const allExt = Array.from(document.querySelectorAll('a[href^="http"]'));
+      for (const a of allExt) {
+        const h = a.href || '';
+        if (!h.includes('google.com') && !h.includes('gstatic.com') && !h.includes('ggpht.com') && !h.includes('facebook.com') && !h.includes('instagram.com') && !h.includes('twitter.com') && !h.includes('youtube.com')) {
+          const aria = (a.getAttribute('aria-label') || '').toLowerCase();
+          const tooltip = (a.getAttribute('data-tooltip') || '').toLowerCase();
+          const itemId = a.getAttribute('data-item-id') || '';
+          if (aria.includes('website') || tooltip.includes('website') || itemId.includes('authority')) {
+            website = h;
+            break;
+          }
+        }
+      }
     }
 
     // 5. Phone
