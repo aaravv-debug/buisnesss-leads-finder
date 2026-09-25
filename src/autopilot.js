@@ -1,3 +1,4 @@
+const followups = require('./followups');
 const fs = require('fs');
 const path = require('path');
 const { scrapeGoogleMaps } = require('./scraper');
@@ -227,6 +228,8 @@ class AutopilotManager {
       for (const d of campaignResults.details) {
         if (d.status === 'sent' && d.email) {
           this.sentEmailsSet.add(d.email.toLowerCase());
+          const matchLead = eligibleLeads.find(l => l.emails && l.emails[0] && l.emails[0].toLowerCase() === d.email.toLowerCase());
+          followups.addFollowupLead(matchLead || { name: d.name || d.email.split('@')[0], email: d.email }, target.city, target.niche);
         }
       }
 

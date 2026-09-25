@@ -1,3 +1,4 @@
+const followups = require('./src/followups');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -247,6 +248,42 @@ let activeOutreach = {
 };
 
 // Autopilot Status & Logs
+
+// ==================== 2-DAY CLIENT FOLLOW-UP PIPELINE API ====================
+app.get('/api/followups', (req, res) => {
+  const list = followups.loadFollowups();
+  const dueCount = list.filter(i => (i.daysRemaining <= 2 || i.status.includes('Due')) && !i.status.startsWith('Followed Up')).length;
+  res.json({
+    total: list.length,
+    dueCount,
+    list
+  });
+});
+
+app.post('/api/followups/update', (req, res) => {
+  const { id, updates } = req.body;
+  const updated = followups.updateFollowup(id, updates);
+  if (!updated) return res.status(404).json({ error: 'Client not found' });
+  res.json(updated);
+});
+
+app.post('/api/followups/send', async (req, res) => {
+  const { id, customPitch } = req.body;
+  try {
+    const result = await followups.sendFollowupEmail(id, customPitch);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/followups/export.csv', (req, res) => {
+  const csv = followups.exportCsv();
+  res.setHeader('Content-Type', 'text/csv');
+  res.setHeader('Content-Disposition', 'attachment; filename="clients_2day_followup_tracker.csv"');
+  res.send(csv);
+});
+
 app.get('/api/autopilot/status', (req, res) => {
   res.json(autopilot.getStatus());
 });
