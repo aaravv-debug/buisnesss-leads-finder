@@ -52,7 +52,8 @@ function interpolateTemplate(template, lead) {
     .replace(/\{\{\s*city\s*\}\}/gi, lead.city || 'your area')
     .replace(/\{\{\s*category\s*\}\}/gi, lead.category || 'local business')
     .replace(/\{\{\s*website\s*\}\}/gi, lead.website || 'none')
-    .replace(/\{\{\s*phone\s*\}\}/gi, lead.phone || '');
+    .replace(/\{\{\s*phone\s*\}\}/gi, lead.phone || '')
+    .replace(/\{\{\s*portfolio\s*\}\}/gi, 'https://aaravsinh-rathod-portfolio-9.vercel.app/');
 }
 
 /**

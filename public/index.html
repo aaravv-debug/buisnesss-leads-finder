@@ -341,7 +341,7 @@
 
                 <div class="input-group" style="margin-top: 0.75rem;">
                   <label for="smtpSenderName">Your Name / Agency</label>
-                  <input type="text" id="smtpSenderName" placeholder="e.g. Alex | Web Solutions" value="Alex | Web Design">
+                  <input type="text" id="smtpSenderName" placeholder="e.g. Aaravsinh Rathod | Web Developer" value="Aaravsinh Rathod | Web Developer">
                 </div>
 
                 <div class="input-group" style="margin-top: 0.75rem;">
@@ -368,7 +368,7 @@
                   </div>
                 </div>
 
-                <div class="test-send-box" style="margin-top: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--border-color); border-radius: var(--radius-sm);">
+                <div class="test-send-box" style="margin-top: 1rem; padding-top: 0.75rem; background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--border-color); border-radius: var(--radius-sm);">
                   <label for="testEmailInput" style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted);">Send a test email to verify credentials:</label>
                   <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
                     <input type="email" id="testEmailInput" placeholder="your-personal@email.com" style="flex: 1; padding: 0.35rem 0.6rem; font-size: 0.8rem;">
@@ -385,6 +385,7 @@
                   <button type="button" class="var-pill" data-var="{{city}}">{{city}}</button>
                   <button type="button" class="var-pill" data-var="{{category}}">{{category}}</button>
                   <button type="button" class="var-pill" data-var="{{website}}">{{website}}</button>
+                  <button type="button" class="var-pill" data-var="https://aaravsinh-rathod-portfolio-9.vercel.app/">Portfolio Link</button>
                 </div>
 
                 <div class="input-group">
@@ -394,18 +395,21 @@
 
                 <div class="input-group" style="margin-top: 0.75rem;">
                   <label for="emailBody">Email Body</label>
-                  <textarea id="emailBody" rows="7" style="font-size: 0.82rem; line-height: 1.4;">Hi {{name}} team! 👋
+                  <textarea id="emailBody" rows="10" style="font-size: 0.82rem; line-height: 1.45;">Hi {{name}} team! 👋
 
 I was looking at top {{category}} businesses in {{city}} and noticed your profile currently doesn't have an active website or mobile booking link for new clients.
 
-I specialize in building clean, fast booking websites for {{category}} practices that bring in 5-10 extra appointments every week.
+I specialize in building clean, modern, and fast booking websites that bring in 5-10 extra appointments every week. You can see my recent client work and portfolio here:
+👉 https://aaravsinh-rathod-portfolio-9.vercel.app/
 
 I put together a quick 30-second preview demo of how a custom mobile booking page could look for {{name}}. 
 
 Would you mind if I sent the preview link over? No pressure at all, just thought it might be helpful!
 
 Best regards,
-Alex | Web Design</textarea>
+Aaravsinh Rathod
+Web Developer & Designer
+https://aaravsinh-rathod-portfolio-9.vercel.app/</textarea>
                 </div>
 
                 <div class="input-group" style="margin-top: 0.75rem;">
@@ -473,15 +477,18 @@ Alex | Web Design</textarea>
                   <button type="button" class="var-pill-ig" data-var="{{name}}">{{name}}</button>
                   <button type="button" class="var-pill-ig" data-var="{{city}}">{{city}}</button>
                   <button type="button" class="var-pill-ig" data-var="{{category}}">{{category}}</button>
+                  <button type="button" class="var-pill-ig" data-var="https://aaravsinh-rathod-portfolio-9.vercel.app/">Portfolio Link</button>
                 </div>
 
                 <div class="input-group">
                   <label for="igMessageBody">DM Message Body</label>
-                  <textarea id="igMessageBody" rows="8" style="font-size: 0.82rem; line-height: 1.4;">Hi {{name}} team! 👋
+                  <textarea id="igMessageBody" rows="9" style="font-size: 0.82rem; line-height: 1.45;">Hi {{name}} team! 👋
 
 Loved your work and reviews in {{city}}!
 
-I noticed your profile doesn't have a direct mobile booking link or modern website in your bio for clients to schedule appointments.
+I noticed your profile doesn't have a direct mobile booking link or modern website in your bio for clients to easily schedule appointments.
+
+I specialize in building high-converting booking websites for {{category}} practices (portfolio: https://aaravsinh-rathod-portfolio-9.vercel.app/).
 
 I put together a quick 30-second design preview of how a booking page could look for {{name}}. 
 
