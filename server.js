@@ -230,6 +230,137 @@ app.post('/api/leads/enrich-socials', async (req, res) => {
   }
 });
 
+const { runEmailCampaign, verifyConnection, createTransporter } = require('./src/mailer');
+const { runInstagramCampaign } = require('./src/instagram-bot');
+
+// Active outreach state
+let activeOutreach = {
+  running: false,
+  type: null,
+  total: 0,
+  current: 0,
+  sent: 0,
+  failed: 0,
+  logs: []
+};
+
+// Test email connection & send test email
+app.post('/api/outreach/email/test', async (req, res) => {
+  const { config, testEmail, subject, body } = req.body;
+  if (!config || !config.user || !config.pass) {
+    return res.status(400).json({ error: 'Email username and App Password are required.' });
+  }
+
+  try {
+    const transporter = createTransporter(config);
+    await transporter.verify();
+
+    if (testEmail) {
+      await transporter.sendMail({
+        from: `"${config.senderName || 'LeadPulse Outreach'}" <${config.user}>`,
+        to: testEmail,
+        subject: subject || 'LeadPulse Test Email',
+        text: body || 'This is a test email sent from LeadPulse Outreach Bot! Your configuration is working.'
+      });
+    }
+
+    res.json({ success: true, message: testEmail ? `Test email sent to ${testEmail}!` : 'SMTP Connection Verified!' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Launch Email Campaign
+app.post('/api/outreach/email', async (req, res) => {
+  const { leads = [], config, subjectTemplate, bodyTemplate, delaySeconds = 20 } = req.body;
+
+  if (activeOutreach.running) {
+    return res.status(400).json({ error: 'Another outreach campaign is currently running.' });
+  }
+
+  if (!config || !config.user || !config.pass) {
+    return res.status(400).json({ error: 'Email credentials are required.' });
+  }
+
+  activeOutreach = {
+    running: true,
+    type: 'email',
+    total: leads.length,
+    current: 0,
+    sent: 0,
+    failed: 0,
+    logs: [`[System] Started Email Outreach campaign for ${leads.length} leads.`]
+  };
+
+  res.json({ message: 'Email campaign started', total: leads.length });
+
+  // Run in background
+  runEmailCampaign({
+    leads,
+    config,
+    subjectTemplate,
+    bodyTemplate,
+    delaySeconds,
+    onProgress: (p) => {
+      activeOutreach.current = p.current;
+      activeOutreach.sent = p.sent;
+      activeOutreach.failed = p.failed;
+    },
+    onLog: (msg) => {
+      activeOutreach.logs.push(msg);
+      if (activeOutreach.logs.length > 100) activeOutreach.logs.shift();
+    }
+  }).finally(() => {
+    activeOutreach.running = false;
+  });
+});
+
+// Launch Instagram DM Campaign
+app.post('/api/outreach/instagram', async (req, res) => {
+  const { leads = [], credentials, messageTemplate, delaySeconds = 60, headless = false } = req.body;
+
+  if (activeOutreach.running) {
+    return res.status(400).json({ error: 'Another outreach campaign is currently running.' });
+  }
+
+  activeOutreach = {
+    running: true,
+    type: 'instagram',
+    total: leads.length,
+    current: 0,
+    sent: 0,
+    failed: 0,
+    logs: [`[System] Started Instagram DM Outreach campaign for ${leads.length} leads.`]
+  };
+
+  res.json({ message: 'Instagram DM campaign started', total: leads.length });
+
+  // Run in background
+  runInstagramCampaign({
+    leads,
+    credentials,
+    messageTemplate,
+    delaySeconds,
+    headless,
+    onProgress: (p) => {
+      activeOutreach.current = p.current;
+      activeOutreach.sent = p.sent;
+      activeOutreach.failed = p.failed;
+    },
+    onLog: (msg) => {
+      activeOutreach.logs.push(msg);
+      if (activeOutreach.logs.length > 100) activeOutreach.logs.shift();
+    }
+  }).finally(() => {
+    activeOutreach.running = false;
+  });
+});
+
+// Outreach Status & Logs polling
+app.get('/api/outreach/status', (req, res) => {
+  res.json(activeOutreach);
+});
+
 // Serve frontend SPA fallback
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

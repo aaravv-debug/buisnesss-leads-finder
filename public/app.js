@@ -624,3 +624,307 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+// ==========================================
+// 🚀 AUTO-OUTREACH BOT (EMAIL & INSTAGRAM)
+// ==========================================
+const outreachModalBtn = document.getElementById('outreachModalBtn');
+const outreachModal = document.getElementById('outreachModal');
+const outreachModalClose = document.getElementById('outreachModalClose');
+const btnCancelEmail = document.getElementById('btnCancelEmail');
+const btnCancelIg = document.getElementById('btnCancelIg');
+const outreachTabs = document.querySelectorAll('.outreach-tab-btn');
+const outreachTabContents = document.querySelectorAll('.outreach-tab-content');
+
+// Email Elements
+const smtpProvider = document.getElementById('smtpProvider');
+const customSmtpFields = document.getElementById('customSmtpFields');
+const smtpSenderName = document.getElementById('smtpSenderName');
+const smtpUser = document.getElementById('smtpUser');
+const smtpPass = document.getElementById('smtpPass');
+const smtpHost = document.getElementById('smtpHost');
+const smtpPort = document.getElementById('smtpPort');
+const testEmailInput = document.getElementById('testEmailInput');
+const btnTestEmail = document.getElementById('btnTestEmail');
+const emailSubject = document.getElementById('emailSubject');
+const emailBody = document.getElementById('emailBody');
+const emailDelaySelect = document.getElementById('emailDelaySelect');
+const btnLaunchEmail = document.getElementById('btnLaunchEmail');
+const emailTargetCount = document.getElementById('emailTargetCount');
+
+// Instagram Elements
+const igUsername = document.getElementById('igUsername');
+const igPassword = document.getElementById('igPassword');
+const igDelaySelect = document.getElementById('igDelaySelect');
+const igHeadlessToggle = document.getElementById('igHeadlessToggle');
+const igMessageBody = document.getElementById('igMessageBody');
+const btnLaunchIg = document.getElementById('btnLaunchIg');
+const igTargetCount = document.getElementById('igTargetCount');
+
+// Activity & Monitoring Elements
+const activityPulse = document.getElementById('activityPulse');
+const activityStatusText = document.getElementById('activityStatusText');
+const outreachProgressBar = document.getElementById('outreachProgressBar');
+const outreachSentCount = document.getElementById('outreachSentCount');
+const outreachFailedCount = document.getElementById('outreachFailedCount');
+const outreachTotalCount = document.getElementById('outreachTotalCount');
+const outreachTerminal = document.getElementById('outreachTerminal');
+
+let outreachPollInterval = null;
+
+// Open Outreach Hub
+if (outreachModalBtn) {
+  outreachModalBtn.addEventListener('click', () => {
+    updateOutreachTargetCounts();
+    outreachModal.classList.remove('hidden');
+  });
+}
+
+// Close Outreach Hub
+[outreachModalClose, btnCancelEmail, btnCancelIg].forEach(btn => {
+  if (btn) {
+    btn.addEventListener('click', () => {
+      outreachModal.classList.add('hidden');
+    });
+  }
+});
+
+// Tab Switcher
+outreachTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    outreachTabs.forEach(t => t.classList.remove('active'));
+    outreachTabContents.forEach(c => c.classList.add('hidden'));
+
+    tab.classList.add('active');
+    const targetId = tab.dataset.tab;
+    const targetContent = document.getElementById(targetId);
+    if (targetContent) targetContent.classList.remove('hidden');
+  });
+});
+
+// Toggle Custom SMTP
+if (smtpProvider) {
+  smtpProvider.addEventListener('change', () => {
+    if (smtpProvider.value === 'custom') {
+      customSmtpFields.classList.remove('hidden');
+    } else {
+      customSmtpFields.classList.add('hidden');
+    }
+  });
+}
+
+// Variable Pills Helper
+document.querySelectorAll('.var-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    insertAtCursor(emailBody, pill.dataset.var);
+  });
+});
+
+document.querySelectorAll('.var-pill-ig').forEach(pill => {
+  pill.addEventListener('click', () => {
+    insertAtCursor(igMessageBody, pill.dataset.var);
+  });
+});
+
+function insertAtCursor(textarea, text) {
+  const start = textarea.selectionStart || textarea.value.length;
+  const end = textarea.selectionEnd || textarea.value.length;
+  textarea.value = textarea.value.substring(0, start) + text + textarea.value.substring(end);
+  textarea.focus();
+  textarea.selectionStart = textarea.selectionEnd = start + text.length;
+}
+
+function updateOutreachTargetCounts() {
+  const emailLeads = allLeads.filter(l => l.emails && l.emails.length > 0);
+  const igLeads = allLeads.filter(l => l.socials && l.socials.instagram);
+
+  if (emailTargetCount) emailTargetCount.textContent = `${emailLeads.length} leads with email ready`;
+  if (igTargetCount) igTargetCount.textContent = `${igLeads.length} leads with Instagram ready`;
+}
+
+// Test Email Send
+if (btnTestEmail) {
+  btnTestEmail.addEventListener('click', async () => {
+    const user = smtpUser.value.trim();
+    const pass = smtpPass.value.trim();
+    const testTo = testEmailInput.value.trim();
+
+    if (!user || !pass) {
+      showToast('Please enter your email and App Password.');
+      return;
+    }
+
+    btnTestEmail.disabled = true;
+    btnTestEmail.textContent = 'Testing...';
+
+    try {
+      const res = await fetch('/api/outreach/email/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          config: {
+            provider: smtpProvider.value,
+            user,
+            pass,
+            host: smtpHost.value.trim(),
+            port: smtpPort.value.trim(),
+            senderName: smtpSenderName.value.trim()
+          },
+          testEmail: testTo || null
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Connection failed');
+      showToast(data.message || 'Credentials verified successfully!');
+    } catch (err) {
+      alert('SMTP Error: ' + err.message);
+    } finally {
+      btnTestEmail.disabled = false;
+      btnTestEmail.textContent = 'Test Send';
+    }
+  });
+}
+
+// Launch Email Campaign
+if (btnLaunchEmail) {
+  btnLaunchEmail.addEventListener('click', async () => {
+    const user = smtpUser.value.trim();
+    const pass = smtpPass.value.trim();
+    const emailLeads = allLeads.filter(l => l.emails && l.emails.length > 0);
+
+    if (emailLeads.length === 0) {
+      showToast('No leads with email found in your current results. Scrape leads first!');
+      return;
+    }
+
+    if (!user || !pass) {
+      showToast('Please enter your sender email and App Password.');
+      return;
+    }
+
+    btnLaunchEmail.disabled = true;
+
+    try {
+      const res = await fetch('/api/outreach/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leads: emailLeads,
+          config: {
+            provider: smtpProvider.value,
+            user,
+            pass,
+            host: smtpHost.value.trim(),
+            port: smtpPort.value.trim(),
+            senderName: smtpSenderName.value.trim()
+          },
+          subjectTemplate: emailSubject.value,
+          bodyTemplate: emailBody.value,
+          delaySeconds: parseInt(emailDelaySelect.value, 10)
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to start campaign');
+
+      showToast(`Email campaign launched for ${emailLeads.length} leads!`);
+      // Switch to Activity tab
+      document.querySelector('[data-tab="tab-activity"]').click();
+      startOutreachPolling();
+    } catch (err) {
+      alert('Launch error: ' + err.message);
+    } finally {
+      btnLaunchEmail.disabled = false;
+    }
+  });
+}
+
+// Launch Instagram DM Campaign
+if (btnLaunchIg) {
+  btnLaunchIg.addEventListener('click', async () => {
+    const igLeads = allLeads.filter(l => l.socials && l.socials.instagram);
+
+    if (igLeads.length === 0) {
+      showToast('No leads with Instagram found in current results. Scrape leads first!');
+      return;
+    }
+
+    btnLaunchIg.disabled = true;
+
+    try {
+      const res = await fetch('/api/outreach/instagram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leads: igLeads,
+          credentials: {
+            username: igUsername.value.trim(),
+            password: igPassword.value.trim()
+          },
+          messageTemplate: igMessageBody.value,
+          delaySeconds: parseInt(igDelaySelect.value, 10),
+          headless: igHeadlessToggle.checked
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to start Instagram bot');
+
+      showToast(`Instagram bot launched for ${igLeads.length} profile(s)!`);
+      document.querySelector('[data-tab="tab-activity"]').click();
+      startOutreachPolling();
+    } catch (err) {
+      alert('Launch error: ' + err.message);
+    } finally {
+      btnLaunchIg.disabled = false;
+    }
+  });
+}
+
+// Poll Outreach Status & Logs
+function startOutreachPolling() {
+  if (outreachPollInterval) clearInterval(outreachPollInterval);
+
+  outreachPollInterval = setInterval(async () => {
+    try {
+      const res = await fetch('/api/outreach/status');
+      const data = await res.json();
+
+      if (data) {
+        activityStatusText.textContent = data.running 
+          ? `Outreach Bot Active (${data.type.toUpperCase()})` 
+          : 'Outreach Bot Completed / Idle';
+        
+        if (data.running) {
+          activityPulse.classList.add('active');
+        } else {
+          activityPulse.classList.remove('active');
+        }
+
+        outreachSentCount.textContent = data.sent || 0;
+        outreachFailedCount.textContent = data.failed || 0;
+        outreachTotalCount.textContent = data.total || 0;
+
+        const percent = data.total > 0 ? Math.round((data.current / data.total) * 100) : 0;
+        outreachProgressBar.style.width = `${percent}%`;
+
+        // Render logs
+        if (data.logs && data.logs.length > 0) {
+          outreachTerminal.innerHTML = data.logs.map(l => {
+            const isSuccess = l.includes('✅') || l.includes('Delivered') || l.includes('successfully');
+            const isError = l.includes('❌') || l.includes('Error') || l.includes('Failed');
+            const cls = isSuccess ? 'success' : isError ? 'error' : 'system';
+            return `<div class="log-line ${cls}">${escapeHtml(l)}</div>`;
+          }).join('');
+          outreachTerminal.scrollTop = outreachTerminal.scrollHeight;
+        }
+
+        if (!data.running && percent === 100) {
+          clearInterval(outreachPollInterval);
+        }
+      }
+    } catch (_) {}
+  }, 2000);
+}
+

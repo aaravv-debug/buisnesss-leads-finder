@@ -32,6 +32,9 @@
           <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
           Batch Scrape
         </button>
+        <button id="outreachModalBtn" class="btn btn-primary" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); border: none; font-weight: 700; box-shadow: 0 4px 14px rgba(236, 72, 153, 0.35);">
+          ⚡ Auto-Outreach Bot
+        </button>
       </div>
     </header>
 
@@ -295,6 +298,231 @@
           <button class="btn btn-secondary" id="batchCancelBtn">Cancel</button>
           <button class="btn btn-primary" id="batchStartBtn">Launch Batch Run</button>
         </div>
+      </div>
+    </div>
+
+    <!-- Automated Outreach Bot Modal -->
+    <div class="modal-backdrop hidden" id="outreachModal">
+      <div class="modal-card modal-large" style="max-width: 880px;">
+        <div class="modal-header">
+          <div class="modal-title-group" style="display: flex; align-items: center; gap: 0.75rem;">
+            <h3>⚡ LeadPulse Auto-Outreach Bot</h3>
+            <span class="badge-pro" style="background: linear-gradient(135deg, #ec4899, #8b5cf6);">Email & Instagram DM</span>
+          </div>
+          <button class="modal-close-btn" id="outreachModalClose">✕</button>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div class="outreach-tabs">
+          <button type="button" class="outreach-tab-btn active" data-tab="tab-email">
+            ✉️ Cold Email Automation
+          </button>
+          <button type="button" class="outreach-tab-btn" data-tab="tab-instagram">
+            📸 Instagram DM Bot
+          </button>
+          <button type="button" class="outreach-tab-btn" data-tab="tab-activity">
+            📊 Live Campaign Activity
+          </button>
+        </div>
+
+        <div class="modal-body" style="padding: 1.25rem 1.5rem;">
+          <!-- TAB 1: EMAIL OUTREACH -->
+          <div id="tab-email" class="outreach-tab-content active">
+            <div class="outreach-grid">
+              <div class="outreach-col-left">
+                <h4 class="section-subtitle">1. Sender Email Settings</h4>
+                <div class="input-group">
+                  <label for="smtpProvider">Provider</label>
+                  <select id="smtpProvider">
+                    <option value="gmail" selected>Gmail (App Password)</option>
+                    <option value="custom">Custom SMTP (Outlook, Brevo, SendGrid, Namecheap)</option>
+                  </select>
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label for="smtpSenderName">Your Name / Agency</label>
+                  <input type="text" id="smtpSenderName" placeholder="e.g. Alex | Web Solutions" value="Alex | Web Design">
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label for="smtpUser">Your Email Address</label>
+                  <input type="email" id="smtpUser" placeholder="e.g. yourname@gmail.com">
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label for="smtpPass">App Password <small style="color: #fbbf24;">(16-char Google App Password)</small></label>
+                  <input type="password" id="smtpPass" placeholder="xxxx xxxx xxxx xxxx">
+                  <p class="field-hint" style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.25rem;">For Gmail: Use a free 16-character "App Password" from your Google Account settings.</p>
+                </div>
+
+                <div id="customSmtpFields" class="hidden" style="margin-top: 0.75rem;">
+                  <div class="form-row">
+                    <div class="input-group flex-2">
+                      <label for="smtpHost">SMTP Host</label>
+                      <input type="text" id="smtpHost" placeholder="smtp.office365.com">
+                    </div>
+                    <div class="input-group flex-1">
+                      <label for="smtpPort">Port</label>
+                      <input type="number" id="smtpPort" placeholder="587" value="587">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="test-send-box" style="margin-top: 1rem; padding: 0.75rem; background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--border-color); border-radius: var(--radius-sm);">
+                  <label for="testEmailInput" style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted);">Send a test email to verify credentials:</label>
+                  <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
+                    <input type="email" id="testEmailInput" placeholder="your-personal@email.com" style="flex: 1; padding: 0.35rem 0.6rem; font-size: 0.8rem;">
+                    <button type="button" id="btnTestEmail" class="btn btn-secondary btn-sm" style="white-space: nowrap;">Test Send</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="outreach-col-right">
+                <h4 class="section-subtitle">2. High-Converting Pitch Template</h4>
+                <div class="variable-pills" style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                  <span style="font-size: 0.72rem; color: var(--text-muted);">Insert variable:</span>
+                  <button type="button" class="var-pill" data-var="{{name}}">{{name}}</button>
+                  <button type="button" class="var-pill" data-var="{{city}}">{{city}}</button>
+                  <button type="button" class="var-pill" data-var="{{category}}">{{category}}</button>
+                  <button type="button" class="var-pill" data-var="{{website}}">{{website}}</button>
+                </div>
+
+                <div class="input-group">
+                  <label for="emailSubject">Subject Line</label>
+                  <input type="text" id="emailSubject" value="Quick question regarding {{name}}'s online booking">
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label for="emailBody">Email Body</label>
+                  <textarea id="emailBody" rows="7" style="font-size: 0.82rem; line-height: 1.4;">Hi {{name}} team! 👋
+
+I was looking at top {{category}} businesses in {{city}} and noticed your profile currently doesn't have an active website or mobile booking link for new clients.
+
+I specialize in building clean, fast booking websites for {{category}} practices that bring in 5-10 extra appointments every week.
+
+I put together a quick 30-second preview demo of how a custom mobile booking page could look for {{name}}. 
+
+Would you mind if I sent the preview link over? No pressure at all, just thought it might be helpful!
+
+Best regards,
+Alex | Web Design</textarea>
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label for="emailDelaySelect">Safe Pacing Delay</label>
+                  <select id="emailDelaySelect">
+                    <option value="15">15 seconds (Faster)</option>
+                    <option value="25" selected>25 seconds (Recommended - protects domain reputation)</option>
+                    <option value="45">45 seconds (Ultra safe)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 1rem; padding-top: 1rem;">
+              <span id="emailTargetCount" class="outreach-target-badge">0 leads with email ready</span>
+              <button class="btn btn-secondary" id="btnCancelEmail">Cancel</button>
+              <button class="btn btn-primary btn-large" id="btnLaunchEmail" style="background: linear-gradient(135deg, #10b981, #059669);">
+                🚀 Launch Email Campaign
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 2: INSTAGRAM DM BOT -->
+          <div id="tab-instagram" class="outreach-tab-content hidden">
+            <div class="outreach-grid">
+              <div class="outreach-col-left">
+                <h4 class="section-subtitle">1. Instagram Login Credentials</h4>
+                <div class="input-group">
+                  <label for="igUsername">Instagram Username</label>
+                  <input type="text" id="igUsername" placeholder="e.g. your_instagram_handle">
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label for="igPassword">Instagram Password</label>
+                  <input type="password" id="igPassword" placeholder="••••••••••••">
+                  <p class="field-hint" style="font-size: 0.72rem; color: var(--text-dim); margin-top: 0.25rem;">Cookies are saved locally on your computer after the first login so you stay signed in.</p>
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label for="igDelaySelect">Safe Anti-Ban Pacing Delay</label>
+                  <select id="igDelaySelect">
+                    <option value="45">45 seconds</option>
+                    <option value="60" selected>60 seconds (Recommended - Safe pacing)</option>
+                    <option value="90">90 seconds (Ultra safe for new accounts)</option>
+                  </select>
+                  <p class="field-hint" style="color: #fbbf24; font-size: 0.72rem; margin-top: 0.25rem;">Instagram allows 20-30 DMs per day safely. The bot types with realistic human keystroke variations.</p>
+                </div>
+
+                <div class="input-group" style="margin-top: 0.75rem;">
+                  <label class="toggle-control">
+                    <input type="checkbox" id="igHeadlessToggle">
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">
+                      <strong>Headless Mode</strong>
+                      <small>Keep unchecked on first run to watch login & solve 2FA</small>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="outreach-col-right">
+                <h4 class="section-subtitle">2. Personalized Direct Message (DM)</h4>
+                <div class="variable-pills" style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                  <span style="font-size: 0.72rem; color: var(--text-muted);">Insert variable:</span>
+                  <button type="button" class="var-pill-ig" data-var="{{name}}">{{name}}</button>
+                  <button type="button" class="var-pill-ig" data-var="{{city}}">{{city}}</button>
+                  <button type="button" class="var-pill-ig" data-var="{{category}}">{{category}}</button>
+                </div>
+
+                <div class="input-group">
+                  <label for="igMessageBody">DM Message Body</label>
+                  <textarea id="igMessageBody" rows="8" style="font-size: 0.82rem; line-height: 1.4;">Hi {{name}} team! 👋
+
+Loved your work and reviews in {{city}}!
+
+I noticed your profile doesn't have a direct mobile booking link or modern website in your bio for clients to schedule appointments.
+
+I put together a quick 30-second design preview of how a booking page could look for {{name}}. 
+
+Would you mind if I sent the preview link over? No pressure at all!</textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 1rem; padding-top: 1rem;">
+              <span id="igTargetCount" class="outreach-target-badge">0 leads with Instagram ready</span>
+              <button class="btn btn-secondary" id="btnCancelIg">Cancel</button>
+              <button class="btn btn-primary btn-large" id="btnLaunchIg" style="background: linear-gradient(135deg, #ec4899, #8b5cf6);">
+                📸 Launch Instagram DM Bot
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 3: ACTIVITY LOGS & PROGRESS -->
+          <div id="tab-activity" class="outreach-tab-content hidden">
+            <div class="activity-header" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 1rem;">
+              <div class="activity-status" style="display: flex; align-items: center; gap: 0.5rem;">
+                <span class="pulse-indicator" id="activityPulse"></span>
+                <strong id="activityStatusText">Outreach Bot Idle</strong>
+              </div>
+              <div class="activity-counters" style="display: flex; gap: 1rem; font-size: 0.82rem;">
+                <span>Sent: <strong id="outreachSentCount" style="color: #34d399;">0</strong></span>
+                <span>Failed: <strong id="outreachFailedCount" style="color: #f87171;">0</strong></span>
+                <span>Total: <strong id="outreachTotalCount">0</strong></span>
+              </div>
+            </div>
+
+            <div class="progress-track" style="margin-bottom: 1rem;">
+              <div id="outreachProgressBar" class="progress-fill" style="width: 0%;"></div>
+            </div>
+
+            <div class="terminal-body" id="outreachTerminal" style="height: 260px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 0.75rem 1rem; overflow-y: auto; background: rgba(0, 0, 0, 0.35); font-family: var(--font-mono); font-size: 0.8rem;">
+              <div class="log-line system">[Outreach Bot] Ready. Configure your Email or Instagram settings above and click Launch.</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
