@@ -7,25 +7,22 @@ const { sleep } = require('./utils');
 function createTransporter(config) {
   const { provider = 'gmail', user, pass, host, port, secure } = config;
 
-  if (provider === 'gmail') {
+    if (provider === 'gmail') {
     return nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
       auth: {
         user: user.trim(),
-        pass: pass.trim().replace(/\s+/g, '') // strip spaces if copied from Google App Password
-      }
+        pass: pass.trim().replace(/\s+/g, '')
+      },
+      tls: {
+        rejectUnauthorized: false
+      },
+      connectionTimeout: 20000,
+      greetingTimeout: 15000,
+      socketTimeout: 30000
     });
-  }
-
-  // Custom SMTP (Brevo, SendGrid, Outlook, Namecheap, etc.)
-  return nodemailer.createTransport({
-    host: host || 'smtp.gmail.com',
-    port: parseInt(port, 10) || 587,
-    secure: Boolean(secure),
-    auth: {
-      user: user.trim(),
-      pass: pass.trim()
-    }
   });
 }
 

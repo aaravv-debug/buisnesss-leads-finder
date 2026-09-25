@@ -200,10 +200,35 @@ class AutopilotManager {
       this.log(`Identified ${eligibleLeads.length} fresh qualified leads ready for automated outreach.`);
 
       if (eligibleLeads.length === 0) {
-        this.log(`No new unreached email leads found in this batch. Advancing to next location next hour.`);
-        runRecord.status = 'no_new_leads';
-        this.recordHistory(runRecord);
-        return { success: true, sent: 0, reason: 'No new leads' };
+        this.log(`⚠️ 0 new leads found for "${target.niche} in ${target.city}". Automatically trying next location immediately...`);
+        runRecord.status = 'skipped_trying_next';
+        // Try up to 2 fallback niches in the same cycle so an hour is NEVER wasted
+        for (let retry = 0; retry < 2; retry++) {
+          const fallbackTarget = ROTATING_TARGETS[this.state.targetIndex % ROTATING_TARGETS.length];
+          this.state.targetIndex = (this.state.targetIndex + 1) % ROTATING_TARGETS.length;
+          this.log(`🔄 Fallback Search (${retry + 1}/2): "${fallbackTarget.niche} in ${fallbackTarget.city}"...`);
+          const fallbackLeads = await scrapeGoogleMaps({
+            query: `${fallbackTarget.niche.replace(/&/g, 'and')} in ${fallbackTarget.city}`,
+            maxResults: maxToScrape,
+            enrich: true,
+            headless: true,
+            onLog: (m) => this.log(m)
+          });
+          for (const l of fallbackLeads) {
+            if (l.emails && l.emails.length > 0 && !this.sentEmailsSet.has(l.emails[0].toLowerCase())) {
+              eligibleLeads.push(l);
+              if (eligibleLeads.length >= (this.state.maxLeadsPerRun || 30)) break;
+            }
+          }
+          if (eligibleLeads.length > 0) break;
+        }
+
+        if (eligibleLeads.length === 0) {
+          this.log(`No leads found after fallback tries. Will try next batch next hour.`);
+          runRecord.status = 'no_new_leads';
+          this.recordHistory(runRecord);
+          return { success: true, sent: 0, reason: 'No new leads' };
+        }
       }
 
       // 4. Send Emails with Smart Adaptive Pitch
