@@ -1,5 +1,5 @@
 
-// Anti-Spam Dynamic Content Generator (prevents "Message Blocked" by randomizing phrasing)
+// Anti-Spam Dynamic Content Generator (prevents "Message Blocked" by randomizing phrasing and structure)
 function generateDynamicPitch(lead, isRedesign = false) {
   const name = lead.name || 'there';
   const city = lead.city || 'your area';
@@ -10,20 +10,25 @@ function generateDynamicPitch(lead, isRedesign = false) {
     `Quick question regarding ${name}'s online booking`,
     `Question for ${name} team`,
     `Idea for ${name}'s mobile booking`,
-    `Quick note regarding ${name}`
+    `Quick note regarding ${name}`,
+    `New client booking question for ${name}`,
+    `Idea regarding appointments for ${name}`
   ];
 
   const subjectsRedesign = [
     `Quick thoughts on modernizing ${name}'s website`,
     `Mobile booking idea for ${name}`,
     `${name} website & appointments idea`,
-    `Thoughts on ${name}'s current website`
+    `Thoughts on ${name}'s current website`,
+    `Quick question for ${name} team`,
+    `Feedback on ${name}'s mobile booking flow`
   ];
 
   const greetings = [
     `Hi ${name} team! 👋`,
     `Hello to the team at ${name},`,
     `Hi there ${name} team,`,
+    `Good day to the ${name} team,`,
     `Hope you're having a productive week ${name} team!`
   ];
 
@@ -37,19 +42,21 @@ function generateDynamicPitch(lead, isRedesign = false) {
     const intros = [
       `I was researching top ${category} practices in ${city} and was taking a look at your current website (${website}).`,
       `I came across ${name} while looking at leading ${category} businesses in ${city} and checked out your website (${website}).`,
-      `I was looking at ${category} providers in ${city} and noticed your site at ${website}.`
+      `I was browsing ${category} providers in ${city} and noticed your site at ${website}.`,
+      `I came across your business while researching reputable ${category} spots in ${city}.`
     ];
     const randIntro = intros[Math.floor(Math.random() * intros.length)];
 
-    body = `${randomGreeting}\n\n${randIntro}\n\nI noticed a few areas where streamlining the layout and adding a direct mobile-friendly booking system could easily bring in 5-10 extra appointments every week.\n\nI specialize in fast, high-converting booking websites for ${category} practices. You can review my recent client projects here:\n👉 https://aaravsinh-rathod-portfolio-9.vercel.app/\n\nMay I send a 45-second video showing how your website will look for ${name}? No pressure at all, just thought it might give you some great ideas!\n\nBest regards,\nAaravsinh Rathod\nWeb Developer & Designer\nhttps://aaravsinh-rathod-portfolio-9.vercel.app/\n\n(PS: If you'd rather not receive any ideas, please reply "opt out" and I won't reach out again!)`;
+    body = `${randomGreeting}\n\n${randIntro}\n\nI noticed a few areas where streamlining the layout and adding a direct mobile-friendly booking system could easily bring in 5-10 extra appointments every week.\n\nI specialize in fast, high-converting booking websites for ${category} practices. You can review my recent client work and portfolio here:\n👉 https://aaravsinh-rathod-portfolio-9.vercel.app/\n\nMay I send a 45-second video showing how your website will look for ${name}? No pressure at all, just thought it might give you some great ideas!\n\nBest regards,\nAaravsinh Rathod\nFreelance Web Developer\n\n(PS: If you'd rather not receive any ideas, simply reply "opt out" and I won't reach out again!)`;
   } else {
     const intros = [
       `I was looking at top ${category} businesses in ${city} and noticed your Google profile currently doesn't have an active website or direct mobile booking link for clients.`,
-      `I came across ${name} in ${city} and noticed your profile is missing a direct online booking website.`
+      `I came across ${name} in ${city} and noticed your profile is missing a direct online booking website.`,
+      `I was looking at ${category} services in ${city} and saw your listing without an active website.`
     ];
     const randIntro = intros[Math.floor(Math.random() * intros.length)];
 
-    body = `${randomGreeting}\n\n${randIntro}\n\nI build clean, modern, and fast booking websites that help ${category} businesses bring in 5-10 extra appointments every week. You can see my recent client work and portfolio here:\n👉 https://aaravsinh-rathod-portfolio-9.vercel.app/\n\nMay I send a 45-second video showing how your website will look for ${name}? No pressure at all, just thought it might be helpful!\n\nBest regards,\nAaravsinh Rathod\nWeb Developer & Designer\nhttps://aaravsinh-rathod-portfolio-9.vercel.app/\n\n(PS: If you'd rather not receive any ideas, please reply "opt out" and I won't reach out again!)`;
+    body = `${randomGreeting}\n\n${randIntro}\n\nI build clean, modern, and fast booking websites that help ${category} businesses bring in 5-10 extra appointments every week. You can see my recent client work and portfolio here:\n👉 https://aaravsinh-rathod-portfolio-9.vercel.app/\n\nMay I send a 45-second video showing how your website will look for ${name}? No pressure at all, just thought it might be helpful!\n\nBest regards,\nAaravsinh Rathod\nFreelance Web Developer\n\n(PS: If you'd rather not receive any ideas, simply reply "opt out" and I won't reach out again!)`;
   }
 
   return { subject, body };
@@ -67,18 +74,18 @@ const { sleep } = require('./utils');
 const AUTOPILOT_STORE_PATH = path.join(__dirname, '..', 'autopilot-state.json');
 
 const ROTATING_TARGETS = [
+  { niche: 'Luxury Day Spa', city: 'Chicago, IL' },
+  { niche: 'Med Spa & Skin Clinic', city: 'Scottsdale, AZ' },
+  { niche: 'Day Spa & Wellness', city: 'San Diego, CA' },
+  { niche: 'Aesthetics & Wellness Spa', city: 'Atlanta, GA' },
+  { niche: 'Laser & Medical Spa', city: 'Dallas, TX' },
   { niche: 'Med Spa', city: 'Miami, FL' },
   { niche: 'Cosmetic Dentist', city: 'Austin, TX' },
-  { niche: 'Hair Salon & Extensions', city: 'Dallas, TX' },
   { niche: 'Aesthetics & Botox Clinic', city: 'Los Angeles, CA' },
-  { niche: 'Roofing Contractor', city: 'Houston, TX' },
   { niche: 'Wellness & Laser Spa', city: 'New York, NY' },
-  { niche: 'HVAC Services', city: 'Phoenix, AZ' },
-  { niche: 'Chiropractic Clinic', city: 'Denver, CO' },
-  { niche: 'Dental Practice', city: 'London, UK' },
   { niche: 'Skin & Beauty Clinic', city: 'Toronto, Canada' },
-  { niche: 'Plumbing & Emergency Services', city: 'Atlanta, GA' },
-  { niche: 'Luxury Day Spa', city: 'Chicago, IL' }
+  { niche: 'Chiropractic Clinic', city: 'Denver, CO' },
+  { niche: 'Dental Practice', city: 'London, UK' }
 ];
 
 const DEFAULT_CONFIG = {
@@ -300,21 +307,12 @@ class AutopilotManager {
         }
       }
 
-      // 4. Send Emails with Smart Adaptive Pitch
-      const emailSubjectNoWeb = "Quick question regarding {{name}}'s online booking";
-      const emailBodyNoWeb = `Hi {{name}} team! 👋\n\nI was looking at top {{category}} businesses in {{city}} and noticed your profile currently doesn't have an active website or mobile booking link for new clients.\n\nI specialize in building clean, modern, and fast booking websites that bring in 5-10 extra appointments every week. You can see my recent client work and portfolio here:\n👉 https://aaravsinh-rathod-portfolio-9.vercel.app/\n\nMay I send a 45-second video showing how your website will look for {{name}}? No pressure at all, just thought it might be helpful!\n\nBest regards,\nAaravsinh Rathod\nWeb Developer & Designer\nhttps://aaravsinh-rathod-portfolio-9.vercel.app/`;
-
-      const emailSubjectRedesign = "Quick thoughts on modernizing {{name}}'s website & mobile booking";
-      const emailBodyRedesign = `Hi {{name}} team! 👋\n\nI was looking at top {{category}} businesses in {{city}} and was reviewing your current website ({{website}}).\n\nI noticed a few areas where modernizing the layout and adding a direct mobile-friendly booking flow could easily bring you 5-10 more client bookings each week.\n\nI specialize in modern website redesigns and high-speed booking systems for {{category}} practices. You can see my recent client redesigns and portfolio here:\n👉 https://aaravsinh-rathod-portfolio-9.vercel.app/\n\nMay I send a 45-second video showing how your website will look for {{name}}? No pressure at all, just thought it might give you some great ideas!\n\nBest regards,\nAaravsinh Rathod\nWeb Developer & Designer\nhttps://aaravsinh-rathod-portfolio-9.vercel.app/`;
-
+      // 4. Send Emails with Smart Adaptive Pitch & Dynamic Anti-Spam Spintax
       const campaignResults = await runEmailCampaign({
         leads: eligibleLeads,
         config: smtpConfig,
-        subjectTemplate: emailSubjectNoWeb,
-        bodyTemplate: emailBodyNoWeb,
-        subjectTemplateRedesign: emailSubjectRedesign,
-        bodyTemplateRedesign: emailBodyRedesign,
-        delaySeconds: 30, // 30s safe delay + human pacing to prevent spam flags // 20s safe delay between emails
+        dynamicPitchGenerator: (lead, hasWebsite) => generateDynamicPitch(lead, hasWebsite),
+        delaySeconds: 30, // 30s safe delay + human pacing to prevent spam flags
         onLog: (m) => this.log(m)
       });
 

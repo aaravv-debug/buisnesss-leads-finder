@@ -1,5 +1,56 @@
+const dns = require('dns');
+try { dns.setDefaultResultOrder('ipv4first'); } catch (_) {}
+dns.setServers(['8.8.8.8', '1.1.1.1']);
 const nodemailer = require('nodemailer');
+const fs = require('fs');
+const path = require('path');
 const { sleep } = require('./utils');
+
+const SUPPRESSION_PATH = path.join(__dirname, '..', 'data', 'suppression-list.json');
+
+/**
+ * Check if the domain has valid MX records so we never send to a dead or non-existent mail server
+ */
+async function verifyDomainMx(email) {
+  try {
+    const domain = (email.split('@')[1] || '').trim().toLowerCase();
+    if (!domain || !domain.includes('.')) return false;
+    const records = await dns.promises.resolveMx(domain);
+    return Boolean(records && records.length > 0);
+  } catch (err) {
+    return false;
+  }
+}
+
+/**
+ * Helper to check suppression list
+ */
+function isSuppressed(email) {
+  try {
+    if (fs.existsSync(SUPPRESSION_PATH)) {
+      const list = JSON.parse(fs.readFileSync(SUPPRESSION_PATH, 'utf8'));
+      return list.map(e => e.toLowerCase()).includes(email.toLowerCase().trim());
+    }
+  } catch (_) {}
+  return false;
+}
+
+/**
+ * Helper to add to suppression list
+ */
+function addToSuppressionList(email) {
+  try {
+    let list = [];
+    if (fs.existsSync(SUPPRESSION_PATH)) {
+      list = JSON.parse(fs.readFileSync(SUPPRESSION_PATH, 'utf8'));
+    }
+    const clean = email.toLowerCase().trim();
+    if (!list.includes(clean)) {
+      list.push(clean);
+      fs.writeFileSync(SUPPRESSION_PATH, JSON.stringify(list, null, 2), 'utf8');
+    }
+  } catch (_) {}
+}
 
 /**
  * Creates an SMTP Transporter based on provided configuration
@@ -77,9 +128,7 @@ function interpolateTemplate(template, lead) {
 }
 
 /**
- * Run automated cold email outreach campaign with safe human-paced delays.
- * Features Smart Adaptive Pitching: Automatically sends "No Website" pitch to businesses without a site,
- * and "Website Redesign & Modernization" pitch to businesses with an existing/outdated site.
+ * Run automated cold email outreach campaign with safe human-paced delays and anti-spam protection.
  */
 async function runEmailCampaign(options) {
   const {
@@ -89,7 +138,8 @@ async function runEmailCampaign(options) {
     bodyTemplate,
     subjectTemplateRedesign,
     bodyTemplateRedesign,
-    delaySeconds = 25,
+    dynamicPitchGenerator,
+    delaySeconds = 30,
     onProgress = () => {},
     onLog = () => {}
   } = options;
@@ -107,7 +157,7 @@ async function runEmailCampaign(options) {
 
   for (let i = 0; i < leads.length; i++) {
     const lead = leads[i];
-    const targetEmail = lead.emails && lead.emails.length > 0 ? lead.emails[0] : null;
+    const targetEmail = lead.emails && lead.emails.length > 0 ? lead.emails[0].trim() : null;
 
     if (!targetEmail) {
       onLog(`[Email Bot] Skipped ${lead.name} (No email address discovered).`);
@@ -117,30 +167,56 @@ async function runEmailCampaign(options) {
       continue;
     }
 
-    // Smart Adaptive Pitch Selection:
-    // If the business has a website and a redesign template is provided, use the Redesign pitch!
-    const hasWebsite = Boolean(lead.website);
-    let chosenSubject = subjectTemplate;
-    let chosenBody = bodyTemplate;
-
-    if (hasWebsite && bodyTemplateRedesign) {
-      chosenBody = bodyTemplateRedesign;
-      if (subjectTemplateRedesign) chosenSubject = subjectTemplateRedesign;
+    // 1. Check suppression list (bounces, unsubscribes)
+    if (isSuppressed(targetEmail)) {
+      onLog(`[Email Bot] ⛔ Skipped ${lead.name} (${targetEmail}): In suppression list (bounced/unsubscribed).`);
+      results.skipped++;
+      results.details.push({ id: lead.id, name: lead.name, email: targetEmail, status: 'skipped', reason: 'Suppression list' });
+      onProgress({ current: i + 1, total: leads.length, sent: results.sent, failed: results.failed });
+      continue;
     }
 
-    const personalizedSubject = interpolateTemplate(chosenSubject, lead);
-    const personalizedBody = interpolateTemplate(chosenBody, lead);
+    // 2. DNS MX Record Verification (Prevents sending to non-existent servers and getting bounce-backs)
+    const hasMx = await verifyDomainMx(targetEmail);
+    if (!hasMx) {
+      onLog(`[Email Bot] ⚠️ Skipped ${lead.name} (${targetEmail}): Domain has no valid mail exchanger (MX) record. Skipping to prevent bounce.`);
+      addToSuppressionList(targetEmail);
+      results.skipped++;
+      results.details.push({ id: lead.id, name: lead.name, email: targetEmail, status: 'skipped', reason: 'Invalid MX (bounce prevention)' });
+      onProgress({ current: i + 1, total: leads.length, sent: results.sent, failed: results.failed });
+      continue;
+    }
 
-    const pitchType = hasWebsite && bodyTemplateRedesign ? '🎨 Redesign Pitch' : '📝 New Website Pitch';
+    // 3. Dynamic Pitch Selection
+    const hasWebsite = Boolean(lead.website);
+    let chosenSubject = '';
+    let chosenBody = '';
+
+    if (typeof dynamicPitchGenerator === 'function') {
+      const generated = dynamicPitchGenerator(lead, hasWebsite);
+      chosenSubject = generated.subject;
+      chosenBody = generated.body;
+    } else {
+      chosenSubject = subjectTemplate;
+      chosenBody = bodyTemplate;
+      if (hasWebsite && bodyTemplateRedesign) {
+        chosenBody = bodyTemplateRedesign;
+        if (subjectTemplateRedesign) chosenSubject = subjectTemplateRedesign;
+      }
+      chosenSubject = interpolateTemplate(chosenSubject, lead);
+      chosenBody = interpolateTemplate(chosenBody, lead);
+    }
+
+    const pitchType = hasWebsite ? '🎨 Redesign Pitch' : '📝 New Website Pitch';
     onLog(`[Email Bot] [${i + 1}/${leads.length}] Sending ${pitchType} to ${lead.name} (${targetEmail})...`);
 
     try {
       await transporter.sendMail({
-        from: `"${config.senderName || 'Freelance Web Designer'}" <${config.user}>`,
+        from: `"${config.senderName || 'Aaravsinh Rathod | Web Developer'}" <${config.user}>`,
         to: targetEmail,
-        subject: personalizedSubject,
-        text: personalizedBody,
-        html: personalizedBody.replace(/\n/g, '<br>')
+        subject: chosenSubject,
+        text: chosenBody,
+        html: chosenBody.replace(/\n/g, '<br>')
       });
 
       results.sent++;
@@ -150,14 +226,20 @@ async function runEmailCampaign(options) {
       results.failed++;
       results.details.push({ id: lead.id, name: lead.name, email: targetEmail, status: 'failed', error: err.message });
       onLog(`[Email Bot] ❌ Failed to send to ${lead.name}: ${err.message}`);
+
+      // If blocked or rejected, add to suppression list
+      if (err.message.includes('550') || err.message.includes('blocked') || err.message.includes('rejected')) {
+        addToSuppressionList(targetEmail);
+      }
     }
 
     onProgress({ current: i + 1, total: leads.length, sent: results.sent, failed: results.failed });
 
-    // Safe delay before sending the next email (unless last lead)
+    // Safe delay before sending the next email (with random human jitter of 5-15s)
     if (i < leads.length - 1) {
-      onLog(`[Email Bot] Waiting ${delaySeconds}s to protect domain sender reputation...`);
-      await sleep(delaySeconds * 1000);
+      const jitterDelay = delaySeconds + Math.floor(Math.random() * 10);
+      onLog(`[Email Bot] Safe anti-spam pacing: waiting ${jitterDelay}s before next contact...`);
+      await sleep(jitterDelay * 1000);
     }
   }
 
@@ -168,6 +250,7 @@ async function runEmailCampaign(options) {
 module.exports = {
   createTransporter,
   verifyConnection,
+  verifyDomainMx,
   interpolateTemplate,
   runEmailCampaign
 };
