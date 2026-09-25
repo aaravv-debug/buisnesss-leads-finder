@@ -1,3 +1,5 @@
+const dns = require('dns');
+try { dns.setDefaultResultOrder('ipv4first'); } catch (_) {}
 const followups = require('./followups');
 const fs = require('fs');
 const path = require('path');

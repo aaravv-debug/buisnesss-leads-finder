@@ -1,3 +1,5 @@
+const dns = require('dns');
+try { dns.setDefaultResultOrder('ipv4first'); } catch (_) {}
 const repliesTracker = require('./src/replies-tracker');
 const followups = require('./src/followups');
 const express = require('express');
