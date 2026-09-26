@@ -74,17 +74,15 @@ const { sleep } = require('./utils');
 const AUTOPILOT_STORE_PATH = path.join(__dirname, '..', 'autopilot-state.json');
 
 const ROTATING_TARGETS = [
-  { niche: 'Luxury Day Spa', city: 'Chicago, IL' },
-  { niche: 'Med Spa & Skin Clinic', city: 'Scottsdale, AZ' },
-  { niche: 'Day Spa & Wellness', city: 'San Diego, CA' },
-  { niche: 'Aesthetics & Wellness Spa', city: 'Atlanta, GA' },
-  { niche: 'Laser & Medical Spa', city: 'Dallas, TX' },
-  { niche: 'Med Spa', city: 'Miami, FL' },
-  { niche: 'Cosmetic Dentist', city: 'Austin, TX' },
-  { niche: 'Aesthetics & Botox Clinic', city: 'Los Angeles, CA' },
-  { niche: 'Wellness & Laser Spa', city: 'New York, NY' },
-  { niche: 'Skin & Beauty Clinic', city: 'Toronto, Canada' },
+  { niche: 'Cosmetic Dentist', city: 'Dallas, TX' },
+  { niche: 'Hair Salon & Extensions Studio', city: 'Miami, FL' },
   { niche: 'Chiropractic Clinic', city: 'Denver, CO' },
+  { niche: 'Orthodontist & Smile Studio', city: 'Los Angeles, CA' },
+  { niche: 'Luxury Hair Salon', city: 'Austin, TX' },
+  { niche: 'HVAC Services', city: 'Phoenix, AZ' },
+  { niche: 'Cosmetic Dental Practice', city: 'Chicago, IL' },
+  { niche: 'Personal Training Gym', city: 'Atlanta, GA' },
+  { niche: 'Roofing Contractor', city: 'Houston, TX' },
   { niche: 'Dental Practice', city: 'London, UK' }
 ];
 
